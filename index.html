@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aayush Pandey</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,300&family=Syne:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0c0c0c;
+      --surface: #141414;
+      --border: #222;
+      --text: #a0a0a0;
+      --text-bright: #e8e8e8;
+      --text-dim: #444;
+      --accent: #4f9eff;
+      --green: #3ecf8e;
+      --mono: 'JetBrains Mono', monospace;
+      --sans: 'Syne', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: 14px;
+      line-height: 1.75;
+      min-height: 100vh;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .container {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* NAV */
+    nav {
+      border-bottom: 1px solid var(--border);
+      padding: 20px 0;
+      position: sticky;
+      top: 0;
+      background: var(--bg);
+      z-index: 100;
+    }
+
+    nav .inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--text-bright);
+      letter-spacing: 0.04em;
+    }
+
+    .logo span { color: var(--accent); }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 28px;
+    }
+
+    nav ul a {
+      font-size: 12px;
+      color: var(--text-dim);
+      transition: color 0.2s;
+      letter-spacing: 0.05em;
+    }
+
+    nav ul a:hover { color: var(--text-bright); }
+
+    /* SECTIONS */
+    section {
+      padding: 80px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    section:last-child { border-bottom: none; }
+
+    .label {
+      font-size: 11px;
+      color: var(--text-dim);
+      letter-spacing: 0.12em;
+      margin-bottom: 36px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* HERO */
+    #hero { padding: 100px 0 80px; }
+
+    .hero-prompt {
+      font-size: 11px;
+      color: var(--text-dim);
+      margin-bottom: 20px;
+      letter-spacing: 0.08em;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 7px;
+      height: 13px;
+      background: var(--accent);
+      margin-left: 4px;
+      vertical-align: middle;
+      animation: blink 1s step-end infinite;
+    }
+
+    @keyframes blink { 50% { opacity: 0; } }
+
+    h1 {
+      font-family: var(--sans);
+      font-size: clamp(32px, 6vw, 52px);
+      font-weight: 700;
+      color: var(--text-bright);
+      line-height: 1.1;
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+    }
+
+    .hero-sub {
+      font-size: 14px;
+      color: var(--text);
+      max-width: 520px;
+      line-height: 1.85;
+      margin-bottom: 40px;
+    }
+
+    .hero-meta {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      font-size: 12px;
+      color: var(--text-dim);
+    }
+
+    .hero-meta span {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+    }
+
+    .dot.blue { background: var(--accent); }
+
+    /* ABOUT */
+    .about-block {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+    }
+
+    @media (max-width: 600px) { .about-block { grid-template-columns: 1fr; } }
+
+    .about-text {
+      font-size: 14px;
+      color: var(--text);
+      line-height: 1.85;
+    }
+
+    .about-text p + p { margin-top: 16px; }
+
+    .about-code {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 20px;
+      font-size: 12px;
+      line-height: 2;
+      overflow-x: auto;
+      white-space: pre;
+    }
+
+    .c-comment { color: #555; font-style: italic; }
+    .c-key { color: var(--accent); }
+    .c-str { color: var(--green); }
+    .c-punct { color: #666; }
+
+    /* STACK */
+    .stack-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    @media (max-width: 500px) { .stack-grid { grid-template-columns: 1fr; } }
+
+    .stack-category {
+      padding: 20px 24px;
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .stack-category:nth-child(even) { border-right: none; }
+    .stack-category:nth-last-child(-n+2) { border-bottom: none; }
+
+    @media (max-width: 500px) {
+      .stack-category { border-right: none; }
+      .stack-category:last-child { border-bottom: none; }
+    }
+
+    .stack-category-name {
+      font-size: 11px;
+      color: var(--text-dim);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .stack-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .tag {
+      font-size: 11px;
+      color: var(--text);
+      background: #1a1a1a;
+      border: 1px solid var(--border);
+      padding: 3px 8px;
+      border-radius: 2px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .tag:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* PROJECTS */
+    .project {
+      padding: 28px 0;
+      border-bottom: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .project:last-child { border-bottom: none; }
+
+    .project-title-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .project-name {
+      font-family: var(--sans);
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-bright);
+    }
+
+    .project-badge {
+      font-size: 10px;
+      padding: 2px 7px;
+      border-radius: 2px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .badge-public  { background: rgba(62,207,142,0.08); color: var(--green); border: 1px solid rgba(62,207,142,0.2); }
+    .badge-private { background: rgba(255,255,255,0.03); color: #555; border: 1px solid var(--border); }
+    .badge-demo    { background: rgba(79,158,255,0.08); color: var(--accent); border: 1px solid rgba(79,158,255,0.2); }
+
+    .project-desc {
+      font-size: 13px;
+      color: var(--text);
+      line-height: 1.75;
+      max-width: 500px;
+      margin-bottom: 12px;
+    }
+
+    .project-stack { display: flex; flex-wrap: wrap; gap: 5px; }
+    .project-stack .tag { font-size: 10px; }
+
+    .project-links {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: flex-end;
+      min-width: 72px;
+    }
+
+    .project-link {
+      font-size: 11px;
+      color: var(--text-dim);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: color 0.2s;
+      white-space: nowrap;
+    }
+
+    .project-link:hover { color: var(--accent); }
+
+    .project-link svg {
+      width: 12px;
+      height: 12px;
+      fill: currentColor;
+    }
+
+    .lock-text { font-size: 11px; color: #333; }
+
+    /* CONTACT */
+    .contact-row { display: flex; flex-direction: column; gap: 16px; }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      font-size: 13px;
+    }
+
+    .contact-label {
+      color: var(--text-dim);
+      width: 80px;
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      flex-shrink: 0;
+    }
+
+    .contact-value { color: var(--text); transition: color 0.2s; }
+    .contact-value:hover { color: var(--accent); }
+
+    /* FOOTER */
+    footer { padding: 36px 0; border-top: 1px solid var(--border); }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .footer-copy { font-size: 11px; color: var(--text-dim); }
+
+    .footer-links { display: flex; gap: 20px; }
+
+    .footer-links a {
+      font-size: 11px;
+      color: var(--text-dim);
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--text-bright); }
+
+    @media (max-width: 520px) {
+      nav ul { gap: 16px; }
+      nav ul li:nth-child(n+4) { display: none; }
+      .project { grid-template-columns: 1fr; }
+      .project-links { flex-direction: row; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="container">
+    <div class="inner">
+      <div class="logo">ap<span>.</span>dev</div>
+      <ul>
+        <li><a href="#about">about</a></li>
+        <li><a href="#stack">stack</a></li>
+        <li><a href="#projects">projects</a></li>
+        <li><a href="#contact">contact</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-prompt">~ $ whoami<span class="cursor"></span></div>
+    <h1>Aayush Pandey</h1>
+    <p class="hero-sub">
+      Backend developer from Chitwan, Nepal. I build the parts of applications users never see — APIs, data pipelines, auth systems, job queues. Node.js and TypeScript are home base. Obsessed with making things reliable before making them fast.
+    </p>
+    <div class="hero-meta">
+      <span><span class="dot"></span> Based in Nepal</span>
+      <span><span class="dot blue"></span> Open to remote</span>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="label">// about</div>
+    <div class="about-block">
+      <div class="about-text">
+        <p>
+          I got into code through BCA at Sungava College, but the actual learning happened between classes — late nights, side projects, breaking things and figuring out why they broke.
+        </p>
+        <p>
+          I ended up in backend because I like the part nobody thinks about. A clean API contract. A queue that doesn't drop jobs. A schema that holds up six months later. Frontend is the face; backend is the skeleton.
+        </p>
+        <p>
+          Currently building with Node.js, TypeScript, and whatever database fits the problem. Getting deeper into headless commerce with Vendure and studying system design properly.
+        </p>
+      </div>
+      <div class="about-code"><span class="c-comment">// how I think about work</span>
+<span class="c-key">const</span> approach = {
+  design:  <span class="c-str">'architecture first'</span>,
+  data:    <span class="c-str">'schema before logic'</span>,
+  perf:    <span class="c-str">'measure, then optimize'</span>,
+  code:    <span class="c-str">'readable &gt; clever'</span>,
+  debug:   <span class="c-str">'midnight is fine'</span>
+<span class="c-punct">};</span></div>
+    </div>
+  </section>
+
+  <!-- STACK -->
+  <section id="stack">
+    <div class="label">// stack</div>
+    <div class="stack-grid">
+      <div class="stack-category">
+        <div class="stack-category-name">languages</div>
+        <div class="stack-tags">
+          <span class="tag">TypeScript</span>
+          <span class="tag">JavaScript</span>
+        </div>
+      </div>
+      <div class="stack-category">
+        <div class="stack-category-name">runtime &amp; frameworks</div>
+        <div class="stack-tags">
+          <span class="tag">Node.js</span>
+          <span class="tag">Express</span>
+          <span class="tag">NestJS</span>
+          <span class="tag">Vendure</span>
+        </div>
+      </div>
+      <div class="stack-category">
+        <div class="stack-category-name">databases</div>
+        <div class="stack-tags">
+          <span class="tag">PostgreSQL</span>
+          <span class="tag">MongoDB</span>
+          <span class="tag">Redis</span>
+        </div>
+      </div>
+      <div class="stack-category">
+        <div class="stack-category-name">ORM / ODM</div>
+        <div class="stack-tags">
+          <span class="tag">Prisma</span>
+          <span class="tag">Mongoose</span>
+          <span class="tag">TypeORM</span>
+        </div>
+      </div>
+      <div class="stack-category">
+        <div class="stack-category-name">tools</div>
+        <div class="stack-tags">
+          <span class="tag">Docker</span>
+          <span class="tag">Git</span>
+          <span class="tag">BullMQ</span>
+          <span class="tag">Passport.js</span>
+        </div>
+      </div>
+      <div class="stack-category">
+        <div class="stack-category-name">currently learning</div>
+        <div class="stack-tags">
+          <span class="tag">system design</span>
+          <span class="tag">microservices</span>
+          <span class="tag">Vendure plugins</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="label">// projects</div>
+
+    <div class="project">
+      <div class="project-left">
+        <div class="project-title-row">
+          <span class="project-name">Document Scan AI</span>
+          <span class="project-badge badge-public">public</span>
+        </div>
+        <p class="project-desc">Full-stack AI document processor. Upload a PDF, get OCR output, summaries, and Q&amp;A on the content. Handles large files, integrates Tesseract, stores documents in PostgreSQL via Prisma.</p>
+        <div class="project-stack">
+          <span class="tag">Node.js</span>
+          <span class="tag">Express</span>
+          <span class="tag">React</span>
+          <span class="tag">PostgreSQL</span>
+          <span class="tag">Prisma</span>
+          <span class="tag">Tesseract OCR</span>
+        </div>
+      </div>
+      <div class="project-links">
+        <a href="https://github.com/ayusclg/document-scan-ai" target="_blank" class="project-link">
+          <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          github
+        </a>
+        <a href="https://document-scan-ai-frontend.vercel.app/" target="_blank" class="project-link">
+          <svg viewBox="0 0 16 16"><path d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/><path d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/></svg>
+          live
+        </a>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-left">
+        <div class="project-title-row">
+          <span class="project-name">GigPoint</span>
+          <span class="project-badge badge-public">public</span>
+        </div>
+        <p class="project-desc">Home services marketplace backend. Providers list services, customers book them — the backend handles matching, bookings, reviews, and request tracking via REST API.</p>
+        <div class="project-stack">
+          <span class="tag">Node.js</span>
+          <span class="tag">Express</span>
+          <span class="tag">MongoDB</span>
+          <span class="tag">JWT</span>
+          <span class="tag">REST API</span>
+        </div>
+      </div>
+      <div class="project-links">
+        <a href="https://github.com/ayusclg/GigPoint-Backend" target="_blank" class="project-link">
+          <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          github
+        </a>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-left">
+        <div class="project-title-row">
+          <span class="project-name">NotifyTask</span>
+          <span class="project-badge badge-public">public</span>
+        </div>
+        <p class="project-desc">Task management backend with a real job queue. Tasks are created with priorities and deadlines, BullMQ handles scheduling, Nodemailer sends the reminders. Redis-backed.</p>
+        <div class="project-stack">
+          <span class="tag">Node.js</span>
+          <span class="tag">Express</span>
+          <span class="tag">MongoDB</span>
+          <span class="tag">BullMQ</span>
+          <span class="tag">Redis</span>
+          <span class="tag">Nodemailer</span>
+        </div>
+      </div>
+      <div class="project-links">
+        <a href="https://github.com/ayusclg/notfy-task-backend" target="_blank" class="project-link">
+          <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          github
+        </a>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-left">
+        <div class="project-title-row">
+          <span class="project-name">Swaad</span>
+          <span class="project-badge badge-private">private</span>
+        </div>
+        <p class="project-desc">Restaurant ordering backend. Real-time order tracking via Socket.io, menu and table management, concurrent order handling, Redis caching, and payment integration.</p>
+        <div class="project-stack">
+          <span class="tag">Node.js</span>
+          <span class="tag">Express</span>
+          <span class="tag">MongoDB</span>
+          <span class="tag">Redis</span>
+          <span class="tag">Socket.io</span>
+          <span class="tag">JWT</span>
+        </div>
+      </div>
+      <div class="project-links">
+        <span class="lock-text">private</span>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-left">
+        <div class="project-title-row">
+          <span class="project-name">API Gateway</span>
+          <span class="project-badge badge-private">private</span>
+        </div>
+        <p class="project-desc">Custom API gateway for microservices. Rate limiting, request routing, JWT auth, response caching, and load balancing. Nginx + Docker.</p>
+        <div class="project-stack">
+          <span class="tag">Node.js</span>
+          <span class="tag">Express</span>
+          <span class="tag">Redis</span>
+          <span class="tag">Nginx</span>
+          <span class="tag">Docker</span>
+          <span class="tag">JWT</span>
+        </div>
+      </div>
+      <div class="project-links">
+        <span class="lock-text">private</span>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-left">
+        <div class="project-title-row">
+          <span class="project-name">Mini Game</span>
+          <span class="project-badge badge-demo">demo</span>
+        </div>
+        <p class="project-desc">Browser game built with React and Canvas API. Scoring, game state management, responsive layout.</p>
+        <div class="project-stack">
+          <span class="tag">React</span>
+          <span class="tag">Vite</span>
+          <span class="tag">Canvas API</span>
+          <span class="tag">JavaScript</span>
+        </div>
+      </div>
+      <div class="project-links">
+        <a href="https://game-blue-two.vercel.app/" target="_blank" class="project-link">
+          <svg viewBox="0 0 16 16"><path d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/><path d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/></svg>
+          live
+        </a>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="label">// contact</div>
+    <div class="contact-row">
+      <div class="contact-item">
+        <span class="contact-label">email</span>
+        <a href="mailto:ayusclg@gmail.com" class="contact-value">ayusclg@gmail.com</a>
+      </div>
+      <div class="contact-item">
+        <span class="contact-label">github</span>
+        <a href="https://github.com/ayusclg" target="_blank" class="contact-value">github.com/ayusclg</a>
+      </div>
+      <div class="contact-item">
+        <span class="contact-label">linkedin</span>
+        <a href="https://www.linkedin.com/in/ayush-pandey-87b11b288/" target="_blank" class="contact-value">linkedin.com/in/ayush-pandey-87b11b288</a>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <span class="footer-copy">© 2025 Aayush Pandey</span>
+      <div class="footer-links">
+        <a href="https://github.com/ayusclg" target="_blank">GitHub</a>
+        <a href="https://www.linkedin.com/in/ayush-pandey-87b11b288/" target="_blank">LinkedIn</a>
+        <a href="https://instagram.com/ayusclg" target="_blank">Instagram</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
