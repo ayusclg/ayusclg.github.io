@@ -1,680 +1,1248 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Aayush Pandey</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,300&family=Syne:wght@400;600;700&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg: #0c0c0c;
-      --surface: #141414;
-      --border: #222;
-      --text: #a0a0a0;
-      --text-bright: #e8e8e8;
-      --text-dim: #444;
-      --accent: #4f9eff;
-      --green: #3ecf8e;
-      --mono: 'JetBrains Mono', monospace;
-      --sans: 'Syne', sans-serif;
-    }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--mono);
-      font-size: 14px;
-      line-height: 1.75;
-      min-height: 100vh;
-    }
-
-    a { color: inherit; text-decoration: none; }
-
-    .container {
-      max-width: 760px;
-      margin: 0 auto;
-      padding: 0 24px;
-    }
-
-    /* NAV */
-    nav {
-      border-bottom: 1px solid var(--border);
-      padding: 20px 0;
-      position: sticky;
-      top: 0;
-      background: var(--bg);
-      z-index: 100;
-    }
-
-    nav .inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .logo {
-      font-family: var(--mono);
-      font-size: 13px;
-      color: var(--text-bright);
-      letter-spacing: 0.04em;
-    }
-
-    .logo span { color: var(--accent); }
-
-    nav ul {
-      list-style: none;
-      display: flex;
-      gap: 28px;
-    }
-
-    nav ul a {
-      font-size: 12px;
-      color: var(--text-dim);
-      transition: color 0.2s;
-      letter-spacing: 0.05em;
-    }
-
-    nav ul a:hover { color: var(--text-bright); }
-
-    /* SECTIONS */
-    section {
-      padding: 80px 0;
-      border-bottom: 1px solid var(--border);
-    }
-
-    section:last-child { border-bottom: none; }
-
-    .label {
-      font-size: 11px;
-      color: var(--text-dim);
-      letter-spacing: 0.12em;
-      margin-bottom: 36px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .label::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--border);
-    }
-
-    /* HERO */
-    #hero { padding: 100px 0 80px; }
-
-    .hero-prompt {
-      font-size: 11px;
-      color: var(--text-dim);
-      margin-bottom: 20px;
-      letter-spacing: 0.08em;
-    }
-
-    .cursor {
-      display: inline-block;
-      width: 7px;
-      height: 13px;
-      background: var(--accent);
-      margin-left: 4px;
-      vertical-align: middle;
-      animation: blink 1s step-end infinite;
-    }
-
-    @keyframes blink { 50% { opacity: 0; } }
-
-    h1 {
-      font-family: var(--sans);
-      font-size: clamp(32px, 6vw, 52px);
-      font-weight: 700;
-      color: var(--text-bright);
-      line-height: 1.1;
-      margin-bottom: 16px;
-      letter-spacing: -0.02em;
-    }
-
-    .hero-sub {
-      font-size: 14px;
-      color: var(--text);
-      max-width: 520px;
-      line-height: 1.85;
-      margin-bottom: 40px;
-    }
-
-    .hero-meta {
-      display: flex;
-      gap: 24px;
-      flex-wrap: wrap;
-      font-size: 12px;
-      color: var(--text-dim);
-    }
-
-    .hero-meta span {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--green);
-    }
-
-    .dot.blue { background: var(--accent); }
-
-    /* ABOUT */
-    .about-block {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 40px;
-    }
-
-    @media (max-width: 600px) { .about-block { grid-template-columns: 1fr; } }
-
-    .about-text {
-      font-size: 14px;
-      color: var(--text);
-      line-height: 1.85;
-    }
-
-    .about-text p + p { margin-top: 16px; }
-
-    .about-code {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: 20px;
-      font-size: 12px;
-      line-height: 2;
-      overflow-x: auto;
-      white-space: pre;
-    }
-
-    .c-comment { color: #555; font-style: italic; }
-    .c-key { color: var(--accent); }
-    .c-str { color: var(--green); }
-    .c-punct { color: #666; }
-
-    /* STACK */
-    .stack-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 0;
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      overflow: hidden;
-    }
-
-    @media (max-width: 500px) { .stack-grid { grid-template-columns: 1fr; } }
-
-    .stack-category {
-      padding: 20px 24px;
-      border-right: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .stack-category:nth-child(even) { border-right: none; }
-    .stack-category:nth-last-child(-n+2) { border-bottom: none; }
-
-    @media (max-width: 500px) {
-      .stack-category { border-right: none; }
-      .stack-category:last-child { border-bottom: none; }
-    }
-
-    .stack-category-name {
-      font-size: 11px;
-      color: var(--text-dim);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      margin-bottom: 10px;
-    }
-
-    .stack-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-
-    .tag {
-      font-size: 11px;
-      color: var(--text);
-      background: #1a1a1a;
-      border: 1px solid var(--border);
-      padding: 3px 8px;
-      border-radius: 2px;
-      transition: border-color 0.2s, color 0.2s;
-    }
-
-    .tag:hover { border-color: var(--accent); color: var(--accent); }
-
-    /* PROJECTS */
-    .project {
-      padding: 28px 0;
-      border-bottom: 1px solid var(--border);
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 20px;
-      align-items: start;
-    }
-
-    .project:last-child { border-bottom: none; }
-
-    .project-title-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 8px;
-    }
-
-    .project-name {
-      font-family: var(--sans);
-      font-size: 16px;
-      font-weight: 600;
-      color: var(--text-bright);
-    }
-
-    .project-badge {
-      font-size: 10px;
-      padding: 2px 7px;
-      border-radius: 2px;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-    }
-
-    .badge-public  { background: rgba(62,207,142,0.08); color: var(--green); border: 1px solid rgba(62,207,142,0.2); }
-    .badge-private { background: rgba(255,255,255,0.03); color: #555; border: 1px solid var(--border); }
-    .badge-demo    { background: rgba(79,158,255,0.08); color: var(--accent); border: 1px solid rgba(79,158,255,0.2); }
-
-    .project-desc {
-      font-size: 13px;
-      color: var(--text);
-      line-height: 1.75;
-      max-width: 500px;
-      margin-bottom: 12px;
-    }
-
-    .project-stack { display: flex; flex-wrap: wrap; gap: 5px; }
-    .project-stack .tag { font-size: 10px; }
-
-    .project-links {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      align-items: flex-end;
-      min-width: 72px;
-    }
-
-    .project-link {
-      font-size: 11px;
-      color: var(--text-dim);
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      transition: color 0.2s;
-      white-space: nowrap;
-    }
-
-    .project-link:hover { color: var(--accent); }
-
-    .project-link svg {
-      width: 12px;
-      height: 12px;
-      fill: currentColor;
-    }
-
-    .lock-text { font-size: 11px; color: #333; }
-
-    /* CONTACT */
-    .contact-row { display: flex; flex-direction: column; gap: 16px; }
-
-    .contact-item {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      font-size: 13px;
-    }
-
-    .contact-label {
-      color: var(--text-dim);
-      width: 80px;
-      font-size: 11px;
-      letter-spacing: 0.06em;
-      flex-shrink: 0;
-    }
-
-    .contact-value { color: var(--text); transition: color 0.2s; }
-    .contact-value:hover { color: var(--accent); }
-
-    /* FOOTER */
-    footer { padding: 36px 0; border-top: 1px solid var(--border); }
-
-    .footer-inner {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-
-    .footer-copy { font-size: 11px; color: var(--text-dim); }
-
-    .footer-links { display: flex; gap: 20px; }
-
-    .footer-links a {
-      font-size: 11px;
-      color: var(--text-dim);
-      transition: color 0.2s;
-    }
-
-    .footer-links a:hover { color: var(--text-bright); }
-
-    @media (max-width: 520px) {
-      nav ul { gap: 16px; }
-      nav ul li:nth-child(n+4) { display: none; }
-      .project { grid-template-columns: 1fr; }
-      .project-links { flex-direction: row; align-items: center; }
-    }
-  </style>
-</head>
-<body>
-
-<nav>
-  <div class="container">
-    <div class="inner">
-      <div class="logo">ap<span>.</span>dev</div>
-      <ul>
-        <li><a href="#about">about</a></li>
-        <li><a href="#stack">stack</a></li>
-        <li><a href="#projects">projects</a></li>
-        <li><a href="#contact">contact</a></li>
-      </ul>
-    </div>
-  </div>
-</nav>
-
-<div class="container">
-
-  <!-- HERO -->
-  <section id="hero">
-    <div class="hero-prompt">~ $ whoami<span class="cursor"></span></div>
-    <h1>Aayush Pandey</h1>
-    <p class="hero-sub">
-      Backend developer from Chitwan, Nepal. I build the parts of applications users never see — APIs, data pipelines, auth systems, job queues. Node.js and TypeScript are home base. Obsessed with making things reliable before making them fast.
-    </p>
-    <div class="hero-meta">
-      <span><span class="dot"></span> Based in Nepal</span>
-      <span><span class="dot blue"></span> Open to remote</span>
-    </div>
-  </section>
-
-  <!-- ABOUT -->
-  <section id="about">
-    <div class="label">// about</div>
-    <div class="about-block">
-      <div class="about-text">
-        <p>
-          I got into code through BCA at Sungava College, but the actual learning happened between classes — late nights, side projects, breaking things and figuring out why they broke.
-        </p>
-        <p>
-          I ended up in backend because I like the part nobody thinks about. A clean API contract. A queue that doesn't drop jobs. A schema that holds up six months later. Frontend is the face; backend is the skeleton.
-        </p>
-        <p>
-          Currently building with Node.js, TypeScript, and whatever database fits the problem. Getting deeper into headless commerce with Vendure and studying system design properly.
-        </p>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aayush Pandey</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,300&family=Syne:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --bg: #0c0c0c;
+        --surface: #141414;
+        --border: #222;
+        --text: #a0a0a0;
+        --text-bright: #e8e8e8;
+        --text-dim: #444;
+        --accent: #4f9eff;
+        --green: #3ecf8e;
+        --mono: "JetBrains Mono", monospace;
+        --sans: "Syne", sans-serif;
+      }
+
+      html { scroll-behavior: smooth; }
+
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--mono);
+        font-size: 14px;
+        line-height: 1.75;
+        min-height: 100vh;
+      }
+
+      a { color: inherit; text-decoration: none; }
+
+      .container {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 0 24px;
+      }
+
+      /* NAV */
+      nav {
+        border-bottom: 1px solid var(--border);
+        padding: 20px 0;
+        position: sticky;
+        top: 0;
+        background: var(--bg);
+        z-index: 100;
+      }
+      nav .inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .logo {
+        font-family: var(--mono);
+        font-size: 13px;
+        color: var(--text-bright);
+        letter-spacing: 0.04em;
+      }
+      .logo span { color: var(--accent); }
+      nav ul { list-style: none; display: flex; gap: 28px; }
+      nav ul a {
+        font-size: 12px;
+        color: var(--text-dim);
+        transition: color 0.2s;
+        letter-spacing: 0.05em;
+      }
+      nav ul a:hover { color: var(--text-bright); }
+
+      /* SECTIONS */
+      section {
+        padding: 80px 0;
+        border-bottom: 1px solid var(--border);
+      }
+      section:last-child { border-bottom: none; }
+
+      .label {
+        font-size: 11px;
+        color: var(--text-dim);
+        letter-spacing: 0.12em;
+        margin-bottom: 36px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .label::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: var(--border);
+      }
+
+      /* HERO */
+      #hero { padding: 100px 0 80px; }
+      .hero-prompt {
+        font-size: 11px;
+        color: var(--text-dim);
+        margin-bottom: 20px;
+        letter-spacing: 0.08em;
+      }
+      .cursor {
+        display: inline-block;
+        width: 7px;
+        height: 13px;
+        background: var(--accent);
+        margin-left: 4px;
+        vertical-align: middle;
+        animation: blink 1s step-end infinite;
+      }
+      @keyframes blink { 50% { opacity: 0; } }
+
+      h1 {
+        font-family: var(--sans);
+        font-size: clamp(32px, 6vw, 52px);
+        font-weight: 700;
+        color: var(--text-bright);
+        line-height: 1.1;
+        margin-bottom: 16px;
+        letter-spacing: -0.02em;
+      }
+      .hero-sub {
+        font-size: 14px;
+        color: var(--text);
+        max-width: 520px;
+        line-height: 1.85;
+        margin-bottom: 40px;
+      }
+      .hero-meta {
+        display: flex;
+        gap: 24px;
+        flex-wrap: wrap;
+        font-size: 12px;
+        color: var(--text-dim);
+      }
+      .hero-meta span {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--green);
+      }
+      .dot.blue { background: var(--accent); }
+
+      /* ABOUT */
+      .about-block {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+        align-items: start;
+      }
+      @media (max-width: 600px) {
+        .about-block { grid-template-columns: 1fr; }
+      }
+      .about-text {
+        font-size: 14px;
+        color: var(--text);
+        line-height: 1.85;
+      }
+      .about-text p + p { margin-top: 16px; }
+
+      .about-code {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        padding: 20px;
+        font-size: 12px;
+        line-height: 2;
+        overflow-x: auto;
+        /* FIX: proper wrapping and display */
+        white-space: pre-wrap;
+        word-break: break-word;
+        display: block;
+        height: fit-content;
+        align-self: start;
+      }
+      .c-comment { color: #555; font-style: italic; }
+      .c-key { color: var(--accent); }
+      .c-str { color: var(--green); }
+      .c-punct { color: #666; }
+
+      /* STACK */
+      .stack-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0;
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        overflow: hidden;
+      }
+      @media (max-width: 500px) {
+        .stack-grid { grid-template-columns: 1fr; }
+      }
+      .stack-category {
+        padding: 20px 24px;
+        border-right: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+      }
+      .stack-category:nth-child(even) { border-right: none; }
+      .stack-category:nth-last-child(-n + 2) { border-bottom: none; }
+      @media (max-width: 500px) {
+        .stack-category { border-right: none; }
+        .stack-category:last-child { border-bottom: none; }
+      }
+      .stack-category-name {
+        font-size: 11px;
+        color: var(--text-dim);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+      }
+      .stack-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+      .tag {
+        font-size: 11px;
+        color: var(--text);
+        background: #1a1a1a;
+        border: 1px solid var(--border);
+        padding: 3px 8px;
+        border-radius: 2px;
+        transition: border-color 0.2s, color 0.2s;
+      }
+      .tag:hover { border-color: var(--accent); color: var(--accent); }
+
+      /* PROJECTS */
+      .project {
+        padding: 28px 0;
+        border-bottom: 1px solid var(--border);
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 20px;
+        align-items: start;
+      }
+      .project:last-child { border-bottom: none; }
+
+      .project-left {
+        min-width: 0; /* FIX: prevents overflow */
+      }
+
+      .project-title-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 8px;
+        flex-wrap: wrap;
+      }
+      .project-name {
+        font-family: var(--sans);
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--text-bright);
+      }
+      .project-badge {
+        font-size: 10px;
+        padding: 2px 7px;
+        border-radius: 2px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+      .badge-public {
+        background: rgba(62, 207, 142, 0.08);
+        color: var(--green);
+        border: 1px solid rgba(62, 207, 142, 0.2);
+      }
+      .badge-private {
+        background: rgba(255, 255, 255, 0.03);
+        color: #555;
+        border: 1px solid var(--border);
+      }
+      .badge-demo {
+        background: rgba(79, 158, 255, 0.08);
+        color: var(--accent);
+        border: 1px solid rgba(79, 158, 255, 0.2);
+      }
+      .project-desc {
+        font-size: 13px;
+        color: var(--text);
+        line-height: 1.75;
+        max-width: 500px;
+        margin-bottom: 12px;
+      }
+      .project-stack { display: flex; flex-wrap: wrap; gap: 5px; }
+      .project-stack .tag { font-size: 10px; }
+
+      .project-links {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-end;
+        min-width: 72px;
+        padding-top: 4px; /* FIX: align with title row */
+      }
+      .project-link {
+        font-size: 11px;
+        color: var(--text-dim);
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        transition: color 0.2s;
+        white-space: nowrap;
+      }
+      .project-link:hover { color: var(--accent); }
+      .project-link svg { width: 12px; height: 12px; fill: currentColor; }
+      .lock-text { font-size: 11px; color: #333; }
+
+      /* CONTACT */
+      .contact-row {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      .contact-item {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        font-size: 13px;
+      }
+      .contact-label {
+        color: var(--text-dim);
+        width: 80px;
+        font-size: 11px;
+        letter-spacing: 0.06em;
+        flex-shrink: 0;
+      }
+      .contact-value {
+        color: var(--text);
+        transition: color 0.2s;
+      }
+      .contact-value:hover { color: var(--accent); }
+
+      /* PRIVATE EMAIL BADGE */
+      .contact-private {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 11px;
+        color: #444;
+        border: 1px solid var(--border);
+        padding: 3px 10px;
+        border-radius: 2px;
+        background: var(--surface);
+        letter-spacing: 0.04em;
+      }
+      .contact-private svg {
+        width: 10px;
+        height: 10px;
+        fill: currentColor;
+        opacity: 0.5;
+      }
+
+      /* MUSIC PLAYER */
+      #player-section {
+        padding: 60px 0;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .player-shell {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        overflow: hidden;
+      }
+
+      .player-header {
+        padding: 14px 20px;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 11px;
+        color: var(--text-dim);
+        letter-spacing: 0.06em;
+      }
+
+      .player-header-dots {
+        display: flex;
+        gap: 6px;
+      }
+      .player-header-dots span {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--border);
+        display: block;
+      }
+
+      .track-list {
+        list-style: none;
+      }
+
+      .track-item {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 12px 20px;
+        border-bottom: 1px solid var(--border);
+        cursor: pointer;
+        transition: background 0.15s;
+        position: relative;
+      }
+      .track-item:last-child { border-bottom: none; }
+      .track-item:hover { background: #1a1a1a; }
+      .track-item.active { background: #161a1f; }
+      .track-item.active .track-name { color: var(--accent); }
+      .track-item.active .track-num { color: var(--accent); }
+
+      .track-num {
+        font-size: 11px;
+        color: var(--text-dim);
+        width: 18px;
+        text-align: center;
+        flex-shrink: 0;
+        transition: color 0.2s;
+      }
+
+      .track-info { flex: 1; min-width: 0; }
+      .track-name {
+        font-size: 12px;
+        color: var(--text-bright);
+        transition: color 0.2s;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .track-artist {
+        font-size: 11px;
+        color: var(--text-dim);
+        margin-top: 2px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .track-duration {
+        font-size: 11px;
+        color: var(--text-dim);
+        flex-shrink: 0;
+      }
+
+      .track-play-icon {
+        width: 28px;
+        height: 28px;
+        border: 1px solid var(--border);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        transition: border-color 0.2s, background 0.2s;
+      }
+      .track-item:hover .track-play-icon {
+        border-color: var(--accent);
+        background: rgba(79, 158, 255, 0.08);
+      }
+      .track-item.active .track-play-icon {
+        border-color: var(--accent);
+        background: rgba(79, 158, 255, 0.12);
+      }
+      .track-play-icon svg {
+        width: 10px;
+        height: 10px;
+        fill: var(--text-dim);
+        margin-left: 1px;
+        transition: fill 0.2s;
+      }
+      .track-item:hover .track-play-icon svg { fill: var(--accent); }
+      .track-item.active .track-play-icon svg { fill: var(--accent); }
+
+      /* Now playing bar */
+      .now-playing-bar {
+        padding: 14px 20px;
+        border-top: 1px solid var(--border);
+        background: #111;
+        display: none;
+      }
+      .now-playing-bar.visible { display: block; }
+
+      .npb-track {
+        font-size: 11px;
+        color: var(--text-bright);
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .npb-track-info { display: flex; align-items: center; gap: 8px; }
+      .npb-eq {
+        display: flex;
+        align-items: flex-end;
+        gap: 2px;
+        height: 14px;
+      }
+      .npb-eq span {
+        width: 3px;
+        background: var(--accent);
+        border-radius: 1px;
+        animation: eq 0.8s ease-in-out infinite alternate;
+        display: block;
+      }
+      .npb-eq span:nth-child(1) { animation-delay: 0s; }
+      .npb-eq span:nth-child(2) { animation-delay: 0.15s; }
+      .npb-eq span:nth-child(3) { animation-delay: 0.3s; }
+      .npb-eq.paused span { animation-play-state: paused; }
+
+      @keyframes eq {
+        from { height: 3px; }
+        to { height: 14px; }
+      }
+
+      .npb-controls {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 10px;
+      }
+      .npb-btn {
+        background: none;
+        border: 1px solid var(--border);
+        color: var(--text-dim);
+        font-family: var(--mono);
+        font-size: 10px;
+        padding: 4px 10px;
+        border-radius: 2px;
+        cursor: pointer;
+        transition: all 0.15s;
+        letter-spacing: 0.04em;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+      .npb-btn:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+      .npb-btn svg { width: 10px; height: 10px; fill: currentColor; }
+
+      .npb-time {
+        font-size: 10px;
+        color: var(--text-dim);
+        letter-spacing: 0.04em;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .npb-progress-wrap {
+        position: relative;
+        height: 3px;
+        background: var(--border);
+        border-radius: 2px;
+        cursor: pointer;
+        margin-top: 6px;
+      }
+      .npb-progress-fill {
+        height: 100%;
+        background: var(--accent);
+        border-radius: 2px;
+        width: 0%;
+        transition: width 0.25s linear;
+        pointer-events: none;
+      }
+      .npb-note {
+        font-size: 10px;
+        color: #333;
+        margin-top: 8px;
+        letter-spacing: 0.03em;
+      }
+
+      /* FOOTER */
+      footer { padding: 36px 0; border-top: 1px solid var(--border); }
+      .footer-inner {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+      .footer-copy { font-size: 11px; color: var(--text-dim); }
+      .footer-links { display: flex; gap: 20px; }
+      .footer-links a {
+        font-size: 11px;
+        color: var(--text-dim);
+        transition: color 0.2s;
+      }
+      .footer-links a:hover { color: var(--text-bright); }
+
+      @media (max-width: 520px) {
+        nav ul { gap: 16px; }
+        nav ul li:nth-child(n + 4) { display: none; }
+        .project { grid-template-columns: 1fr; }
+        .project-links { flex-direction: row; align-items: center; }
+      }
+
+      /* FLOATING TERMINAL COMMANDS — untouched */
+      .side-commands {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        width: calc((100vw - 760px) / 2 - 40px);
+        pointer-events: none;
+        overflow: hidden;
+        z-index: 0;
+      }
+      .side-commands.left { left: 0; }
+      .side-commands.right { right: 0; }
+      .cmd {
+        position: absolute;
+        font-family: var(--mono);
+        font-size: 10px;
+        color: #1e1e1e;
+        white-space: nowrap;
+        animation: floatUp linear infinite;
+        user-select: none;
+      }
+      .cmd.active { color: #2a2a2a; }
+      @keyframes floatUp {
+        0%   { transform: translateY(100vh) rotate(var(--rot)); opacity: 0; }
+        5%   { opacity: 1; }
+        90%  { opacity: 1; }
+        100% { transform: translateY(-120px) rotate(var(--rot)); opacity: 0; }
+      }
+      @media (max-width: 1100px) {
+        .side-commands { display: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="side-commands left" id="leftCmds"></div>
+    <div class="side-commands right" id="rightCmds"></div>
+
+    <nav>
+      <div class="container">
+        <div class="inner">
+          <div class="logo">ayusclg<span> 
+          <ul>
+            <li><a href="#about">about</a></li>
+            <li><a href="#stack">stack</a></li>
+            <li><a href="#projects">projects</a></li>
+            <li><a href="#contact">contact</a></li>
+          </ul>
+        </div>
       </div>
-      <div class="about-code"><span class="c-comment">// how I think about work</span>
+    </nav>
+
+    <div class="container">
+
+      <!-- HERO -->
+      <section id="hero">
+        <div class="hero-prompt">~ $ whoami<span class="cursor"></span></div>
+        <h1>Aayush Pandey</h1>
+        <p class="hero-sub">
+          Backend developer from Chitwan, Nepal. I build the parts of
+          applications users never see — APIs, data pipelines, auth systems, job
+          queues. Node.js and TypeScript are home base. Obsessed with making
+          things reliable before making them fast.
+        </p>
+        <div class="hero-meta">
+          <span><span class="dot"></span> Based in Nepal</span>
+          <span><span class="dot blue"></span> Open to remote</span>
+        </div>
+      </section>
+
+      <!-- ABOUT -->
+      <section id="about">
+        <div class="label">// about</div>
+        <div class="about-block">
+          <div class="about-text">
+            <p>
+              I got into code through BCA at Sungava College, but the actual
+              learning happened between classes — late nights, side projects,
+              breaking things and figuring out why they broke.
+            </p>
+            <p>
+              I ended up in backend because I like the part nobody thinks about.
+              A clean API contract. A queue that doesn't drop jobs. A schema
+              that holds up six months later. Frontend is the face; backend is
+              the skeleton.
+            </p>
+            <p>
+              Currently building with Node.js, TypeScript, and whatever database
+              fits the problem. Getting deeper into headless commerce with
+              Vendure and studying system design properly.
+            </p>
+          </div>
+          <div class="about-code"><span class="c-comment">// how I think about work</span>
 <span class="c-key">const</span> approach = {
-  design:  <span class="c-str">'architecture first'</span>,
-  data:    <span class="c-str">'schema before logic'</span>,
-  perf:    <span class="c-str">'measure, then optimize'</span>,
-  code:    <span class="c-str">'readable &gt; clever'</span>,
-  debug:   <span class="c-str">'midnight is fine'</span>
+  design: <span class="c-str">'architecture first'</span>,
+  data:   <span class="c-str">'schema before logic'</span>,
+  perf:   <span class="c-str">'measure, then optimize'</span>,
+  code:   <span class="c-str">'readable &gt; clever'</span>,
+  debug:  <span class="c-str">'midnight is fine'</span>
 <span class="c-punct">};</span></div>
+        </div>
+      </section>
+
+      <!-- STACK -->
+      <section id="stack">
+        <div class="label">// stack</div>
+        <div class="stack-grid">
+          <div class="stack-category">
+            <div class="stack-category-name">languages</div>
+            <div class="stack-tags">
+              <span class="tag">TypeScript</span>
+              <span class="tag">JavaScript</span>
+            </div>
+          </div>
+          <div class="stack-category">
+            <div class="stack-category-name">runtime &amp; frameworks</div>
+            <div class="stack-tags">
+              <span class="tag">Node.js</span>
+              <span class="tag">Express</span>
+              <span class="tag">NestJS</span>
+              <span class="tag">Vendure</span>
+            </div>
+          </div>
+          <div class="stack-category">
+            <div class="stack-category-name">databases</div>
+            <div class="stack-tags">
+              <span class="tag">PostgreSQL</span>
+              <span class="tag">MongoDB</span>
+              <span class="tag">Redis</span>
+            </div>
+          </div>
+          <div class="stack-category">
+            <div class="stack-category-name">ORM / ODM</div>
+            <div class="stack-tags">
+              <span class="tag">Prisma</span>
+              <span class="tag">Mongoose</span>
+              <span class="tag">TypeORM</span>
+            </div>
+          </div>
+          <div class="stack-category">
+            <div class="stack-category-name">tools</div>
+            <div class="stack-tags">
+              <span class="tag">Docker</span>
+              <span class="tag">Git</span>
+              <span class="tag">BullMQ</span>
+              <span class="tag">Passport.js</span>
+            </div>
+          </div>
+          <div class="stack-category">
+            <div class="stack-category-name">currently learning</div>
+            <div class="stack-tags">
+              <span class="tag">system design</span>
+              <span class="tag">microservices</span>
+              <span class="tag">Vendure plugins</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PROJECTS -->
+      <section id="projects">
+        <div class="label">// projects</div>
+
+        <div class="project">
+          <div class="project-left">
+            <div class="project-title-row">
+              <span class="project-name">Document Scan AI</span>
+              <span class="project-badge badge-public">public</span>
+            </div>
+            <p class="project-desc">
+              Full-stack AI document processor. Upload a PDF, get OCR output,
+              summaries, and Q&amp;A on the content. Handles large files,
+              integrates Tesseract, stores documents in PostgreSQL via Prisma.
+            </p>
+            <div class="project-stack">
+              <span class="tag">Node.js</span>
+              <span class="tag">Express</span>
+              <span class="tag">React</span>
+              <span class="tag">PostgreSQL</span>
+              <span class="tag">Prisma</span>
+              <span class="tag">Tesseract OCR</span>
+            </div>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/ayusclg/document-scan-ai" target="_blank" class="project-link">
+              <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+              github
+            </a>
+            <a href="https://document-scan-ai-frontend.vercel.app/" target="_blank" class="project-link">
+              <svg viewBox="0 0 16 16"><path d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/><path d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/></svg>
+              live
+            </a>
+          </div>
+        </div>
+
+        <div class="project">
+          <div class="project-left">
+            <div class="project-title-row">
+              <span class="project-name">GigPoint</span>
+              <span class="project-badge badge-public">public</span>
+            </div>
+            <p class="project-desc">
+              Home services marketplace backend. Providers list services,
+              customers book them — the backend handles matching, bookings,
+              reviews, and request tracking via REST API.
+            </p>
+            <div class="project-stack">
+              <span class="tag">Node.js</span>
+              <span class="tag">Express</span>
+              <span class="tag">MongoDB</span>
+              <span class="tag">JWT</span>
+              <span class="tag">REST API</span>
+            </div>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/ayusclg/GigPoint-Backend" target="_blank" class="project-link">
+              <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+              github
+            </a>
+          </div>
+        </div>
+
+        <div class="project">
+          <div class="project-left">
+            <div class="project-title-row">
+              <span class="project-name">NotifyTask</span>
+              <span class="project-badge badge-public">public</span>
+            </div>
+            <p class="project-desc">
+              Task management backend with a real job queue. Tasks are created
+              with priorities and deadlines, BullMQ handles scheduling,
+              Nodemailer sends the reminders. Redis-backed.
+            </p>
+            <div class="project-stack">
+              <span class="tag">Node.js</span>
+              <span class="tag">Express</span>
+              <span class="tag">MongoDB</span>
+              <span class="tag">BullMQ</span>
+              <span class="tag">Redis</span>
+              <span class="tag">Nodemailer</span>
+            </div>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/ayusclg/notfy-task-backend" target="_blank" class="project-link">
+              <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+              github
+            </a>
+          </div>
+        </div>
+
+        <div class="project">
+          <div class="project-left">
+            <div class="project-title-row">
+              <span class="project-name">Swaad</span>
+              <span class="project-badge badge-private">private</span>
+            </div>
+            <p class="project-desc">
+              Restaurant ordering backend. Real-time order tracking via
+              Socket.io, menu and table management, concurrent order handling,
+              Redis caching, and payment integration.
+            </p>
+            <div class="project-stack">
+              <span class="tag">Node.js</span>
+              <span class="tag">Express</span>
+              <span class="tag">MongoDB</span>
+              <span class="tag">Redis</span>
+              <span class="tag">Socket.io</span>
+              <span class="tag">JWT</span>
+            </div>
+          </div>
+          <div class="project-links">
+            <span class="lock-text">private</span>
+          </div>
+        </div>
+
+        <div class="project">
+          <div class="project-left">
+            <div class="project-title-row">
+              <span class="project-name">API Gateway</span>
+              <span class="project-badge badge-private">private</span>
+            </div>
+            <p class="project-desc">
+              Custom API gateway for microservices. Rate limiting, request
+              routing, JWT auth, response caching, and load balancing. Nginx +
+              Docker.
+            </p>
+            <div class="project-stack">
+              <span class="tag">Node.js</span>
+              <span class="tag">Express</span>
+              <span class="tag">Redis</span>
+              <span class="tag">Nginx</span>
+              <span class="tag">Docker</span>
+              <span class="tag">JWT</span>
+            </div>
+          </div>
+          <div class="project-links">
+            <span class="lock-text">private</span>
+          </div>
+        </div>
+
+        <div class="project">
+          <div class="project-left">
+            <div class="project-title-row">
+              <span class="project-name">Mini Game</span>
+              <span class="project-badge badge-demo">demo</span>
+            </div>
+            <p class="project-desc">
+              Browser game built with React and Canvas API. Scoring, game state
+              management, responsive layout.
+            </p>
+            <div class="project-stack">
+              <span class="tag">React</span>
+              <span class="tag">Vite</span>
+              <span class="tag">Canvas API</span>
+              <span class="tag">JavaScript</span>
+            </div>
+          </div>
+          <div class="project-links">
+            <a href="https://game-blue-two.vercel.app/" target="_blank" class="project-link">
+              <svg viewBox="0 0 16 16"><path d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/><path d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/></svg>
+              live
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- MUSIC PLAYER -->
+      <section id="player-section">
+        <div class="label">// now playing</div>
+        <div class="player-shell">
+          <div class="player-header">
+            <div class="player-header-dots">
+              <span></span><span></span><span></span>
+            </div>
+            <span>lofi / ambient — 30s previews</span>
+            <span style="color:#222;">▐▌▐▌</span>
+          </div>
+          <ul class="track-list" id="trackList"></ul>
+          <div class="now-playing-bar" id="nowPlayingBar">
+            <div class="npb-track">
+              <div class="npb-track-info">
+                <div class="npb-eq" id="eqAnim">
+                  <span></span><span></span><span></span>
+                </div>
+                <span id="npbTitle">—</span>
+              </div>
+              <div class="npb-time">
+                <span id="npbCurrent">0:00</span>
+                <span style="color:#222;">/</span>
+                <span id="npbDuration">0:30</span>
+              </div>
+            </div>
+            <div class="npb-controls">
+              <button class="npb-btn" id="btnPrev">
+                <svg viewBox="0 0 16 16"><path d="M2 13v-10h1.5v4.5L12 2v12L3.5 8.5V13H2z"/></svg>
+                prev
+              </button>
+              <button class="npb-btn" id="btnPlayPause">
+                <svg viewBox="0 0 16 16" id="ppIcon"><path d="M6 3.5v9L13 8 6 3.5z"/></svg>
+                play
+              </button>
+              <button class="npb-btn" id="btnNext">
+                <svg viewBox="0 0 16 16"><path d="M14 3v10h-1.5V8.5L4 14V2l8.5 5.5V3H14z"/></svg>
+                next
+              </button>
+            </div>
+            <div class="npb-progress-wrap" id="progressWrap">
+              <div class="npb-progress-fill" id="progressFill"></div>
+            </div>
+            <div class="npb-note">▸ previews use royalty-free audio from Free Music Archive &amp; ccMixter</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTACT -->
+      <section id="contact">
+        <div class="label">// contact</div>
+        <div class="contact-row">
+          <div class="contact-item">
+            <span class="contact-label">email</span>
+            <span class="contact-private">
+              <svg viewBox="0 0 16 16"><path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/></svg>
+              private
+            </span>
+          </div>
+          <div class="contact-item">
+            <span class="contact-label">github</span>
+            <a href="https://github.com/ayusclg" target="_blank" class="contact-value">github.com/ayusclg</a>
+          </div>
+          <div class="contact-item">
+            <span class="contact-label">linkedin</span>
+            <a href="https://www.linkedin.com/in/ayush-pandey-87b11b288/" target="_blank" class="contact-value">linkedin.com/in/ayush-pandey-87b11b288</a>
+          </div>
+        </div>
+      </section>
+
     </div>
-  </section>
 
-  <!-- STACK -->
-  <section id="stack">
-    <div class="label">// stack</div>
-    <div class="stack-grid">
-      <div class="stack-category">
-        <div class="stack-category-name">languages</div>
-        <div class="stack-tags">
-          <span class="tag">TypeScript</span>
-          <span class="tag">JavaScript</span>
+    <footer>
+      <div class="container">
+        <div class="footer-inner">
+          <span class="footer-copy">© 2025 Aayush Pandey</span>
+          <div class="footer-links">
+            <a href="https://github.com/ayusclg" target="_blank">GitHub</a>
+            <a href="https://www.linkedin.com/in/ayush-pandey-87b11b288/" target="_blank">LinkedIn</a>
+          </div>
         </div>
       </div>
-      <div class="stack-category">
-        <div class="stack-category-name">runtime &amp; frameworks</div>
-        <div class="stack-tags">
-          <span class="tag">Node.js</span>
-          <span class="tag">Express</span>
-          <span class="tag">NestJS</span>
-          <span class="tag">Vendure</span>
-        </div>
-      </div>
-      <div class="stack-category">
-        <div class="stack-category-name">databases</div>
-        <div class="stack-tags">
-          <span class="tag">PostgreSQL</span>
-          <span class="tag">MongoDB</span>
-          <span class="tag">Redis</span>
-        </div>
-      </div>
-      <div class="stack-category">
-        <div class="stack-category-name">ORM / ODM</div>
-        <div class="stack-tags">
-          <span class="tag">Prisma</span>
-          <span class="tag">Mongoose</span>
-          <span class="tag">TypeORM</span>
-        </div>
-      </div>
-      <div class="stack-category">
-        <div class="stack-category-name">tools</div>
-        <div class="stack-tags">
-          <span class="tag">Docker</span>
-          <span class="tag">Git</span>
-          <span class="tag">BullMQ</span>
-          <span class="tag">Passport.js</span>
-        </div>
-      </div>
-      <div class="stack-category">
-        <div class="stack-category-name">currently learning</div>
-        <div class="stack-tags">
-          <span class="tag">system design</span>
-          <span class="tag">microservices</span>
-          <span class="tag">Vendure plugins</span>
-        </div>
-      </div>
-    </div>
-  </section>
+    </footer>
 
-  <!-- PROJECTS -->
-  <section id="projects">
-    <div class="label">// projects</div>
+    <script>
+      // ─── SIDE COMMANDS ───────────────────────────────────────────────
+      const commands = [
+        "npm run dev", 'git commit -m "fix: auth"', "docker ps",
+        "node server.js", "git push origin main", "npx prisma migrate dev",
+        "redis-cli ping", "curl localhost:3000/api", "pm2 start app.js",
+        "git status", "docker-compose up -d", "npm install express",
+        'mongosh --eval "db.stats()"', "git log --oneline", "ts-node src/index.ts",
+        "psql -U postgres", "git stash pop", "npm run build", "docker logs api",
+        "git diff HEAD~1", "jwt.sign(payload)", "bcrypt.hash(pw, 10)",
+        "SELECT * FROM users;", "db.find({}).sort()", "res.json({ ok: true })",
+        "app.listen(8080)", "await db.connect()", "console.log(req.body)",
+        ".env loaded ✓", "PORT=3000", "NODE_ENV=production", "redis connected ✓",
+        "mongo connected ✓", "server running...", "rate limit: 100/min",
+        "schema validated ✓", "queue worker ready", "HTTP 200 OK",
+        "HTTP 401 Unauthorized", "HTTP 429 Too Many Requests",
+        "migration complete", "cache hit: 94%", "p99 latency: 12ms",
+        "heap: 48MB", "connections: 12/100", "seed data inserted",
+      ];
+      function spawnCmd(container) {
+        const el = document.createElement("div");
+        el.className = "cmd" + (Math.random() > 0.6 ? " active" : "");
+        el.textContent = commands[Math.floor(Math.random() * commands.length)];
+        const w = container.offsetWidth;
+        const rot = (Math.random() - 0.5) * 10;
+        const dur = 18 + Math.random() * 24;
+        const delay = Math.random() * -30;
+        const left = Math.random() * Math.max(0, w - 180);
+        el.style.cssText = `left:${left}px;--rot:${rot}deg;animation-duration:${dur}s;animation-delay:${delay}s;`;
+        container.appendChild(el);
+        setTimeout(() => el.remove(), (dur + Math.abs(delay) + 2) * 1000);
+      }
+      function initSide(id, n) {
+        const c = document.getElementById(id);
+        if (!c) return;
+        for (let i = 0; i < n; i++) spawnCmd(c);
+        setInterval(() => spawnCmd(c), 1600);
+      }
+      if (window.innerWidth >= 1100) {
+        initSide("leftCmds", 14);
+        initSide("rightCmds", 14);
+      }
 
-    <div class="project">
-      <div class="project-left">
-        <div class="project-title-row">
-          <span class="project-name">Document Scan AI</span>
-          <span class="project-badge badge-public">public</span>
-        </div>
-        <p class="project-desc">Full-stack AI document processor. Upload a PDF, get OCR output, summaries, and Q&amp;A on the content. Handles large files, integrates Tesseract, stores documents in PostgreSQL via Prisma.</p>
-        <div class="project-stack">
-          <span class="tag">Node.js</span>
-          <span class="tag">Express</span>
-          <span class="tag">React</span>
-          <span class="tag">PostgreSQL</span>
-          <span class="tag">Prisma</span>
-          <span class="tag">Tesseract OCR</span>
-        </div>
-      </div>
-      <div class="project-links">
-        <a href="https://github.com/ayusclg/document-scan-ai" target="_blank" class="project-link">
-          <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-          github
-        </a>
-        <a href="https://document-scan-ai-frontend.vercel.app/" target="_blank" class="project-link">
-          <svg viewBox="0 0 16 16"><path d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/><path d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/></svg>
-          live
-        </a>
-      </div>
-    </div>
+      // ─── MUSIC PLAYER ────────────────────────────────────────────────
+      // Free / CC-licensed audio snippets from public sources
+      const tracks = [
+        {
+          name: "Chill Lo-Fi Beat",
+          artist: "Free Music Archive",
+          src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+          duration: "0:30",
+        },
+        {
+          name: "Ambient Drift",
+          artist: "ccMixter",
+          src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
+          duration: "0:30",
+        },
+        {
+          name: "Late Night Code",
+          artist: "Free Music Archive",
+          src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
+          duration: "0:30",
+        },
+        {
+          name: "Mellow Keys",
+          artist: "SoundHelix",
+          src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3",
+          duration: "0:30",
+        },
+        {
+          name: "Terminal Groove",
+          artist: "SoundHelix",
+          src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3",
+          duration: "0:30",
+        },
+      ];
 
-    <div class="project">
-      <div class="project-left">
-        <div class="project-title-row">
-          <span class="project-name">GigPoint</span>
-          <span class="project-badge badge-public">public</span>
-        </div>
-        <p class="project-desc">Home services marketplace backend. Providers list services, customers book them — the backend handles matching, bookings, reviews, and request tracking via REST API.</p>
-        <div class="project-stack">
-          <span class="tag">Node.js</span>
-          <span class="tag">Express</span>
-          <span class="tag">MongoDB</span>
-          <span class="tag">JWT</span>
-          <span class="tag">REST API</span>
-        </div>
-      </div>
-      <div class="project-links">
-        <a href="https://github.com/ayusclg/GigPoint-Backend" target="_blank" class="project-link">
-          <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-          github
-        </a>
-      </div>
-    </div>
+      const PREVIEW_SECS = 30;
+      let currentIdx = -1;
+      let audio = null;
+      let playing = false;
+      let timer30 = null;
 
-    <div class="project">
-      <div class="project-left">
-        <div class="project-title-row">
-          <span class="project-name">NotifyTask</span>
-          <span class="project-badge badge-public">public</span>
-        </div>
-        <p class="project-desc">Task management backend with a real job queue. Tasks are created with priorities and deadlines, BullMQ handles scheduling, Nodemailer sends the reminders. Redis-backed.</p>
-        <div class="project-stack">
-          <span class="tag">Node.js</span>
-          <span class="tag">Express</span>
-          <span class="tag">MongoDB</span>
-          <span class="tag">BullMQ</span>
-          <span class="tag">Redis</span>
-          <span class="tag">Nodemailer</span>
-        </div>
-      </div>
-      <div class="project-links">
-        <a href="https://github.com/ayusclg/notfy-task-backend" target="_blank" class="project-link">
-          <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-          github
-        </a>
-      </div>
-    </div>
+      const trackList    = document.getElementById("trackList");
+      const npBar        = document.getElementById("nowPlayingBar");
+      const npbTitle     = document.getElementById("npbTitle");
+      const npbCurrent   = document.getElementById("npbCurrent");
+      const progressFill = document.getElementById("progressFill");
+      const eqAnim       = document.getElementById("eqAnim");
+      const btnPlay      = document.getElementById("btnPlayPause");
+      const ppIcon       = document.getElementById("ppIcon");
 
-    <div class="project">
-      <div class="project-left">
-        <div class="project-title-row">
-          <span class="project-name">Swaad</span>
-          <span class="project-badge badge-private">private</span>
-        </div>
-        <p class="project-desc">Restaurant ordering backend. Real-time order tracking via Socket.io, menu and table management, concurrent order handling, Redis caching, and payment integration.</p>
-        <div class="project-stack">
-          <span class="tag">Node.js</span>
-          <span class="tag">Express</span>
-          <span class="tag">MongoDB</span>
-          <span class="tag">Redis</span>
-          <span class="tag">Socket.io</span>
-          <span class="tag">JWT</span>
-        </div>
-      </div>
-      <div class="project-links">
-        <span class="lock-text">private</span>
-      </div>
-    </div>
+      // build track list
+      tracks.forEach((t, i) => {
+        const li = document.createElement("li");
+        li.className = "track-item";
+        li.dataset.idx = i;
+        li.innerHTML = `
+          <div class="track-num">${String(i + 1).padStart(2, "0")}</div>
+          <div class="track-info">
+            <div class="track-name">${t.name}</div>
+            <div class="track-artist">${t.artist}</div>
+          </div>
+          <div class="track-duration">${t.duration}</div>
+          <div class="track-play-icon">
+            <svg viewBox="0 0 16 16"><path d="M6 3.5v9L13 8 6 3.5z"/></svg>
+          </div>`;
+        li.addEventListener("click", () => selectTrack(i));
+        trackList.appendChild(li);
+      });
 
-    <div class="project">
-      <div class="project-left">
-        <div class="project-title-row">
-          <span class="project-name">API Gateway</span>
-          <span class="project-badge badge-private">private</span>
-        </div>
-        <p class="project-desc">Custom API gateway for microservices. Rate limiting, request routing, JWT auth, response caching, and load balancing. Nginx + Docker.</p>
-        <div class="project-stack">
-          <span class="tag">Node.js</span>
-          <span class="tag">Express</span>
-          <span class="tag">Redis</span>
-          <span class="tag">Nginx</span>
-          <span class="tag">Docker</span>
-          <span class="tag">JWT</span>
-        </div>
-      </div>
-      <div class="project-links">
-        <span class="lock-text">private</span>
-      </div>
-    </div>
+      function fmtTime(s) {
+        const m = Math.floor(s / 60);
+        return `${m}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
+      }
 
-    <div class="project">
-      <div class="project-left">
-        <div class="project-title-row">
-          <span class="project-name">Mini Game</span>
-          <span class="project-badge badge-demo">demo</span>
-        </div>
-        <p class="project-desc">Browser game built with React and Canvas API. Scoring, game state management, responsive layout.</p>
-        <div class="project-stack">
-          <span class="tag">React</span>
-          <span class="tag">Vite</span>
-          <span class="tag">Canvas API</span>
-          <span class="tag">JavaScript</span>
-        </div>
-      </div>
-      <div class="project-links">
-        <a href="https://game-blue-two.vercel.app/" target="_blank" class="project-link">
-          <svg viewBox="0 0 16 16"><path d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/><path d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/></svg>
-          live
-        </a>
-      </div>
-    </div>
+      function setActiveItem(idx) {
+        document.querySelectorAll(".track-item").forEach((el, i) => {
+          el.classList.toggle("active", i === idx);
+        });
+      }
 
-  </section>
+      function setPauseIcon() {
+        ppIcon.innerHTML = `<path d="M5.5 3.5h2v9h-2zM8.5 3.5h2v9h-2z"/>`;
+        btnPlay.childNodes[btnPlay.childNodes.length - 1].textContent = " pause";
+      }
+      function setPlayIcon() {
+        ppIcon.innerHTML = `<path d="M6 3.5v9L13 8 6 3.5z"/>`;
+        btnPlay.childNodes[btnPlay.childNodes.length - 1].textContent = " play";
+      }
 
-  <!-- CONTACT -->
-  <section id="contact">
-    <div class="label">// contact</div>
-    <div class="contact-row">
-      <div class="contact-item">
-        <span class="contact-label">email</span>
-        <a href="mailto:ayusclg@gmail.com" class="contact-value">ayusclg@gmail.com</a>
-      </div>
-      <div class="contact-item">
-        <span class="contact-label">github</span>
-        <a href="https://github.com/ayusclg" target="_blank" class="contact-value">github.com/ayusclg</a>
-      </div>
-      <div class="contact-item">
-        <span class="contact-label">linkedin</span>
-        <a href="https://www.linkedin.com/in/ayush-pandey-87b11b288/" target="_blank" class="contact-value">linkedin.com/in/ayush-pandey-87b11b288</a>
-      </div>
-    </div>
-  </section>
+      function stopAudio() {
+        if (timer30) clearTimeout(timer30);
+        if (audio) {
+          audio.pause();
+          audio.currentTime = 0;
+          audio.onloadeddata = null;
+          audio.ontimeupdate = null;
+          audio.onended = null;
+        }
+        playing = false;
+        eqAnim.classList.add("paused");
+        setPlayIcon();
+        progressFill.style.width = "0%";
+        npbCurrent.textContent = "0:00";
+      }
 
-</div>
+      function selectTrack(idx) {
+        stopAudio();
+        currentIdx = idx;
+        const t = tracks[idx];
+        setActiveItem(idx);
+        npBar.classList.add("visible");
+        npbTitle.textContent = `${t.name} — ${t.artist}`;
 
-<footer>
-  <div class="container">
-    <div class="footer-inner">
-      <span class="footer-copy">© 2025 Aayush Pandey</span>
-      <div class="footer-links">
-        <a href="https://github.com/ayusclg" target="_blank">GitHub</a>
-        <a href="https://www.linkedin.com/in/ayush-pandey-87b11b288/" target="_blank">LinkedIn</a>
-        <a href="https://instagram.com/ayusclg" target="_blank">Instagram</a>
-      </div>
-    </div>
-  </div>
-</footer>
+        audio = new Audio(t.src);
+        audio.volume = 0.6;
 
-</body>
+        audio.ontimeupdate = () => {
+          const elapsed = Math.min(audio.currentTime, PREVIEW_SECS);
+          npbCurrent.textContent = fmtTime(elapsed);
+          progressFill.style.width = `${(elapsed / PREVIEW_SECS) * 100}%`;
+          if (audio.currentTime >= PREVIEW_SECS) {
+            stopAudio();
+            // auto-advance
+            const next = (currentIdx + 1) % tracks.length;
+            selectTrack(next);
+          }
+        };
+
+        audio.play().then(() => {
+          playing = true;
+          eqAnim.classList.remove("paused");
+          setPauseIcon();
+          timer30 = setTimeout(() => {
+            stopAudio();
+            const next = (currentIdx + 1) % tracks.length;
+            selectTrack(next);
+          }, PREVIEW_SECS * 1000);
+        }).catch(() => {
+          npbTitle.textContent = "⚠ Autoplay blocked — click play";
+        });
+      }
+
+      btnPlay.addEventListener("click", () => {
+        if (!audio && currentIdx >= 0) { selectTrack(currentIdx); return; }
+        if (!audio) { selectTrack(0); return; }
+        if (playing) {
+          audio.pause();
+          playing = false;
+          eqAnim.classList.add("paused");
+          setPlayIcon();
+          if (timer30) clearTimeout(timer30);
+        } else {
+          audio.play();
+          playing = true;
+          eqAnim.classList.remove("paused");
+          setPauseIcon();
+          const remaining = PREVIEW_SECS - audio.currentTime;
+          timer30 = setTimeout(() => {
+            stopAudio();
+            const next = (currentIdx + 1) % tracks.length;
+            selectTrack(next);
+          }, remaining * 1000);
+        }
+      });
+
+      document.getElementById("btnNext").addEventListener("click", () => {
+        const next = currentIdx < 0 ? 0 : (currentIdx + 1) % tracks.length;
+        selectTrack(next);
+      });
+      document.getElementById("btnPrev").addEventListener("click", () => {
+        const prev = currentIdx <= 0 ? tracks.length - 1 : currentIdx - 1;
+        selectTrack(prev);
+      });
+
+      // click on progress bar
+      document.getElementById("progressWrap").addEventListener("click", (e) => {
+        if (!audio) return;
+        const rect = e.currentTarget.getBoundingClientRect();
+        const pct = (e.clientX - rect.left) / rect.width;
+        const seek = pct * PREVIEW_SECS;
+        audio.currentTime = seek;
+      });
+    </script>
+  </body>
 </html>
