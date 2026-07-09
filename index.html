@@ -3,206 +3,398 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Aayush Pandey</title>
+    <title>Ayush Pandey — Backend Developer</title>
+    <meta name="description" content="Ayush Pandey — Backend developer specializing in the Node.js ecosystem. Scalable, secure, production-ready APIs and systems." />
+    <link rel="icon" type="image/jpeg" href="favicon.jpg" />
+    <link rel="apple-touch-icon" href="favicon.jpg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,300&family=Syne:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
     <style>
       *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
-      :root {
-        --bg: #0c0c0c; --surface: #141414; --border: #222;
-        --text: #a0a0a0; --text-bright: #e8e8e8; --text-dim: #444;
-        --accent: #4f9eff; --green: #3ecf8e;
-        --tag-bg: #1a1a1a;
-        --mono: "JetBrains Mono", monospace; --sans: "Syne", sans-serif;
-      }
-      :root[data-theme="light"] {
-        --bg: #f9f9f9; --surface: #ffffff; --border: #ddd;
-        --text: #444444; --text-bright: #111111; --text-dim: #777777;
-        --accent: #0066cc; --green: #008844;
-        --tag-bg: #eeeeee;
-      }
-      html { scroll-behavior: smooth; }
-      body { background: var(--bg); color: var(--text); font-family: var(--mono); font-size: 15px; line-height: 1.75; min-height: 100vh; overflow-x: hidden; }
-      a { color: inherit; text-decoration: none; }
-      .container { max-width: 760px; margin: 0 auto; padding: 0 24px; }
-      
-      /* TOGGLE BAR */
-      .mode-toggle { position: fixed; top: 0; left: 0; right: 0; background: var(--bg); border-bottom: 1px solid var(--border); z-index: 1000; display: flex; justify-content: center; padding: 10px; gap: 10px; }
-      .mode-btn { background: none; border: 1px solid var(--border); color: var(--text-dim); padding: 5px 15px; font-family: var(--mono); font-size: 12px; cursor: pointer; transition: 0.2s; border-radius: 4px; }
-      .mode-btn.active { color: var(--accent); border-color: var(--accent); background: rgba(79, 158, 255, 0.1); }
-      .mode-btn:hover { color: var(--text-bright); }
 
-      /* GUI MODE */
-      #gui-mode { margin-top: 50px; display: block; }
-      nav { padding: 20px 0; background: var(--bg); }
-      nav .inner { display: flex; align-items: center; justify-content: space-between; }
-      .logo { font-family: var(--mono); font-size: 13px; color: var(--text-bright); letter-spacing: 0.04em; }
-      .logo span { color: var(--accent); }
-      nav ul { list-style: none; display: flex; gap: 28px; }
-      nav ul a { font-size: 12px; color: var(--text-dim); transition: color 0.2s; letter-spacing: 0.05em; }
-      nav ul a:hover { color: var(--text-bright); }
-      section { padding: 80px 0; border-bottom: 1px solid var(--border); }
-      section:last-child { border-bottom: none; }
-      .label { font-size: 11px; color: var(--text-dim); letter-spacing: 0.12em; margin-bottom: 36px; display: flex; align-items: center; gap: 12px; }
-      .label::after { content: ""; flex: 1; height: 1px; background: var(--border); }
-      #hero { padding: 100px 0 80px; }
-      .hero-prompt { font-size: 11px; color: var(--text-dim); margin-bottom: 20px; letter-spacing: 0.08em; }
-      .cursor { display: inline-block; width: 7px; height: 13px; background: var(--accent); margin-left: 4px; vertical-align: middle; animation: blink 1s step-end infinite; }
+      /* ===== THEME (single, soft dimmed light) ===== */
+      :root {
+        --bg: #e8eaee;
+        --surface: #f5f6f8;
+        --surface-2: #e0e3e8;
+        --border: #d5d8de;
+        --border-strong: #c1c5cd;
+        --text: #474c54;
+        --text-bright: #14161b;
+        --text-dim: #878d96;
+        --accent: #4f46e5;
+        --accent-soft: rgba(79,70,229,0.10);
+        --green: #12995f;
+        --green-soft: rgba(18,153,95,0.11);
+        --amber: #bd7405;
+        --amber-soft: rgba(189,116,5,0.12);
+        --tag-bg: #e6e8ec;
+        --code-bg: #1b1c26;
+        --code-text: #d6d3e8;
+        --shadow: 0 1px 2px rgba(20,22,28,0.05), 0 8px 22px rgba(20,22,28,0.06);
+        --mono: "JetBrains Mono", monospace;
+        --sans: "Syne", sans-serif;
+      }
+
+      html { scroll-behavior: smooth; }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--mono);
+        font-size: 15px;
+        line-height: 1.7;
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+      a { color: inherit; text-decoration: none; }
+      ::selection { background: var(--accent); color: #fff; }
+      .container { max-width: 820px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 2; }
+
+      /* ===== TOP BAR ===== */
+      .topbar {
+        position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+        background: color-mix(in srgb, var(--bg) 82%, transparent);
+        backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border);
+        display: flex; justify-content: space-between; align-items: center;
+        padding: 9px 20px; gap: 10px;
+      }
+      .topbar-left { display: flex; align-items: center; gap: 10px; font-size: 12px; color: var(--text-dim); }
+      .status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 0 var(--green); animation: pulse 2.4s infinite; }
+      @keyframes pulse { 0% { box-shadow: 0 0 0 0 var(--green-soft); } 70% { box-shadow: 0 0 0 6px transparent; } 100% { box-shadow: 0 0 0 0 transparent; } }
+      .topbar-right { display: flex; gap: 8px; }
+      .mode-btn { background: var(--surface); border: 1px solid var(--border); color: var(--text-dim); padding: 4px 12px; font-family: var(--mono); font-size: 11px; cursor: pointer; transition: 0.2s; border-radius: 6px; letter-spacing: 0.02em; }
+      .mode-btn.active { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 45%, transparent); background: var(--accent-soft); }
+      .mode-btn:hover { color: var(--text-bright); border-color: var(--border-strong); }
+
+      /* ===== GUI ===== */
+      #gui-mode { display: block; padding-top: 58px; }
+
+      /* Side contents rail (scroll-spy) */
+      .toc { position: fixed; left: 40px; top: 50%; transform: translateY(-50%); z-index: 900; display: flex; flex-direction: column; gap: 2px; }
+      .toc a { display: flex; align-items: center; gap: 12px; padding: 6px 0; font-size: 12px; color: var(--text-dim); letter-spacing: 0.03em; transition: color 0.22s; }
+      .toc-line { width: 16px; height: 1.5px; background: var(--border-strong); border-radius: 2px; transition: width 0.25s ease, background 0.25s ease, height 0.25s ease; flex-shrink: 0; }
+      .toc-label { transition: transform 0.22s ease; }
+      .toc a:hover { color: var(--text-bright); }
+      .toc a:hover .toc-line { width: 24px; background: var(--text-dim); }
+      .toc a.active { color: var(--accent); font-weight: 500; }
+      .toc a.active .toc-line { width: 34px; height: 2px; background: var(--accent); }
+      .toc a.active .toc-label { transform: translateX(2px); }
+      @media (max-width: 1200px) { .toc { display: none; } }
+
+      section { padding: 46px 0; border-bottom: 1px solid var(--border); scroll-margin-top: 64px; }
+      section:last-of-type { border-bottom: none; }
+      #hero { scroll-margin-top: 64px; }
+
+      /* Endpoint labels */
+      .endpoint { display: flex; align-items: center; gap: 10px; margin-bottom: 24px; font-size: 12px; }
+      .method { font-size: 10px; font-weight: 700; letter-spacing: 0.06em; padding: 3px 8px; border-radius: 5px; }
+      .method.get { color: var(--green); background: var(--green-soft); border: 1px solid color-mix(in srgb, var(--green) 26%, transparent); }
+      .method.post { color: var(--amber); background: var(--amber-soft); border: 1px solid color-mix(in srgb, var(--amber) 26%, transparent); }
+      .path { color: var(--text-bright); font-weight: 500; letter-spacing: 0.02em; }
+      .endpoint::after { content: ""; flex: 1; height: 1px; background: var(--border); }
+
+      /* ===== HERO ===== */
+      #hero { padding: 52px 0 46px; border-bottom: 1px solid var(--border); }
+      .hero-grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 44px; align-items: center; }
+      @media (max-width: 760px) { .hero-grid { grid-template-columns: 1fr; gap: 32px; } }
+      .hero-prompt { font-size: 12px; color: var(--text-dim); margin-bottom: 18px; letter-spacing: 0.04em; }
+      .hero-prompt b { color: var(--green); font-weight: 400; }
+      .cursor { display: inline-block; width: 7px; height: 14px; background: var(--accent); margin-left: 3px; vertical-align: middle; animation: blink 1.05s step-end infinite; }
       @keyframes blink { 50% { opacity: 0; } }
-      h1 { font-family: var(--sans); font-size: clamp(32px, 6vw, 52px); font-weight: 700; color: var(--text-bright); line-height: 1.1; margin-bottom: 16px; letter-spacing: -0.02em; }
-      .hero-sub { font-size: 14px; color: var(--text); max-width: 520px; line-height: 1.85; margin-bottom: 40px; }
-      .hero-meta { display: flex; gap: 24px; flex-wrap: wrap; font-size: 12px; color: var(--text-dim); }
-      .hero-meta span { display: flex; align-items: center; gap: 6px; }
-      .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
-      .dot.blue { background: var(--accent); }
-      .about-block { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
-      @media (max-width: 600px) { .about-block { grid-template-columns: 1fr; } }
-      .about-text p + p { margin-top: 16px; }
-      .about-code { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 20px; font-size: 12px; line-height: 2; white-space: pre-wrap; word-break: break-word; }
-      .c-comment { color: #555; font-style: italic; } .c-key { color: var(--accent); } .c-str { color: var(--green); } .c-punct { color: #666; }
-      .stack-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0; border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
-      @media (max-width: 500px) { .stack-grid { grid-template-columns: 1fr; } }
-      .stack-category { padding: 20px 24px; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+      h1 { font-family: var(--sans); font-size: clamp(34px, 6.4vw, 58px); font-weight: 800; color: var(--text-bright); line-height: 1.02; margin-bottom: 14px; letter-spacing: -0.03em; }
+      .hero-role { font-size: 13px; color: var(--accent); font-weight: 500; letter-spacing: 0.03em; margin-bottom: 20px; }
+      .hero-role .sep { color: var(--text-dim); margin: 0 8px; }
+      .type-line { font-size: 14px; color: var(--text); margin-bottom: 18px; min-height: 22px; }
+      .type-line .fixed { color: var(--text-dim); }
+      .typed { color: var(--text-bright); border-right: 2px solid var(--accent); padding-right: 2px; }
+      .hero-sub { font-size: 13.5px; color: var(--text); max-width: 480px; line-height: 1.8; margin-bottom: 26px; }
+      .hero-meta { display: flex; gap: 10px; flex-wrap: wrap; }
+      .chip { display: inline-flex; align-items: center; gap: 7px; font-size: 11px; color: var(--text); background: var(--surface); border: 1px solid var(--border); padding: 5px 11px; border-radius: 20px; }
+      .chip .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
+      .chip .dot.blue { background: var(--accent); }
+      .chip .dot.amber { background: var(--amber); }
+
+      /* Response card */
+      .res-card { background: var(--code-bg); border: 1px solid var(--border-strong); border-radius: 12px; box-shadow: var(--shadow); overflow: hidden; font-size: 12.5px; }
+      .res-head { display: flex; align-items: center; gap: 10px; padding: 11px 14px; border-bottom: 1px solid rgba(255,255,255,0.07); }
+      .res-dots { display: flex; gap: 6px; }
+      .res-dots i { width: 10px; height: 10px; border-radius: 50%; display: block; }
+      .res-dots i:nth-child(1){ background:#ff5f57; } .res-dots i:nth-child(2){ background:#febc2e; } .res-dots i:nth-child(3){ background:#28c840; }
+      .res-status { margin-left: auto; font-size: 11px; color: #7de3b0; letter-spacing: 0.03em; }
+      .res-status b { color: #6b7280; font-weight: 400; }
+      .res-body { padding: 16px 18px; line-height: 1.85; color: var(--code-text); white-space: pre; overflow-x: auto; }
+      .j-key { color: #8b83ff; } .j-str { color: #7de3b0; } .j-punc { color: #6b7280; } .j-num { color: #f0a850; }
+
+      /* ===== ABOUT ===== */
+      .about-block { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; align-items: start; }
+      @media (max-width: 640px) { .about-block { grid-template-columns: 1fr; } }
+      .about-text p { font-size: 13.5px; line-height: 1.85; }
+      .about-text p + p { margin-top: 15px; }
+      .about-text b { color: var(--text-bright); font-weight: 500; }
+      .about-code { background: var(--code-bg); color: var(--code-text); border: 1px solid var(--border-strong); border-radius: 10px; padding: 20px; font-size: 12px; line-height: 2; white-space: pre-wrap; word-break: break-word; box-shadow: var(--shadow); }
+      .c-comment { color: #6b7280; font-style: italic; } .c-key { color: #8b83ff; } .c-str { color: #7de3b0; } .c-punct { color: #6b7280; }
+
+      /* ===== TIMELINE / EXPERIENCE ===== */
+      .timeline { position: relative; padding-left: 26px; }
+      .timeline::before { content: ""; position: absolute; left: 5px; top: 6px; bottom: 6px; width: 2px; background: linear-gradient(var(--border-strong), var(--border)); }
+      .tl-item { position: relative; padding-bottom: 34px; }
+      .tl-item:last-child { padding-bottom: 0; }
+      .tl-marker { position: absolute; left: -26px; top: 4px; width: 12px; height: 12px; border-radius: 50%; background: var(--bg); border: 2px solid var(--border-strong); transition: 0.2s; }
+      .tl-item.current .tl-marker { border-color: var(--green); background: var(--green); box-shadow: 0 0 0 4px var(--green-soft); }
+      .tl-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 3px; }
+      .tl-role { font-family: var(--sans); font-size: 16px; font-weight: 700; color: var(--text-bright); letter-spacing: -0.01em; }
+      .tl-badge { font-size: 9px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; padding: 2px 7px; border-radius: 4px; color: var(--text-dim); background: var(--surface-2); border: 1px solid var(--border); }
+      .tl-badge.current { color: var(--green); background: var(--green-soft); border-color: color-mix(in srgb, var(--green) 26%, transparent); }
+      .tl-meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-size: 12px; margin-bottom: 12px; }
+      .tl-company { color: var(--accent); font-weight: 500; }
+      .tl-date { color: var(--text-dim); }
+      .tl-points { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+      .tl-points li { position: relative; padding-left: 18px; font-size: 13px; line-height: 1.65; color: var(--text); }
+      .tl-points li::before { content: "→"; position: absolute; left: 0; color: var(--accent); opacity: 0.7; }
+
+      /* ===== STACK ===== */
+      .stack-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; background: var(--surface); box-shadow: var(--shadow); }
+      @media (max-width: 520px) { .stack-grid { grid-template-columns: 1fr; } }
+      .stack-category { padding: 20px 22px; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); transition: background 0.2s; }
+      .stack-category:hover { background: var(--surface-2); }
       .stack-category:nth-child(even) { border-right: none; }
       .stack-category:nth-last-child(-n + 2) { border-bottom: none; }
-      @media (max-width: 500px) { .stack-category { border-right: none; } .stack-category:last-child { border-bottom: none; } }
-      .stack-category-name { font-size: 11px; color: var(--text-dim); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
+      @media (max-width: 520px) { .stack-category { border-right: none; } .stack-category:nth-last-child(2) { border-bottom: 1px solid var(--border); } .stack-category:last-child { border-bottom: none; } }
+      .stack-category-name { font-size: 10px; color: var(--text-dim); letter-spacing: 0.11em; text-transform: uppercase; margin-bottom: 12px; }
       .stack-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-      .tag { font-size: 11px; color: var(--text); background: var(--tag-bg); border: 1px solid var(--border); padding: 3px 8px; border-radius: 2px; transition: border-color 0.2s, color 0.2s; }
-      .tag:hover { border-color: var(--accent); color: var(--accent); }
-      .project { padding: 28px 0; border-bottom: 1px solid var(--border); display: grid; grid-template-columns: 1fr auto; gap: 20px; align-items: start; }
-      .project:last-child { border-bottom: none; }
+      .tag { font-size: 11px; color: var(--text); background: var(--tag-bg); border: 1px solid var(--border); padding: 4px 9px; border-radius: 5px; transition: border-color 0.2s, color 0.2s, transform 0.2s; cursor: default; }
+      .tag:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+      /* ===== PROJECTS ===== */
+      .project { padding: 26px 0; border-bottom: 1px solid var(--border); display: grid; grid-template-columns: 1fr auto; gap: 20px; align-items: start; }
+      .project:last-child { border-bottom: none; padding-bottom: 0; }
       .project-left { min-width: 0; }
       .project-title-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; flex-wrap: wrap; }
-      .project-name { font-family: var(--sans); font-size: 16px; font-weight: 600; color: var(--text-bright); }
-      .project-badge { font-size: 10px; padding: 2px 7px; border-radius: 2px; letter-spacing: 0.06em; text-transform: uppercase; }
-      .badge-public { background: rgba(62, 207, 142, 0.08); color: var(--green); border: 1px solid rgba(62, 207, 142, 0.2); }
-      .badge-private { background: rgba(255, 255, 255, 0.03); color: #555; border: 1px solid var(--border); }
-      .badge-demo { background: rgba(79, 158, 255, 0.08); color: var(--accent); border: 1px solid rgba(79, 158, 255, 0.2); }
-      .project-desc { font-size: 13px; color: var(--text); line-height: 1.75; max-width: 500px; margin-bottom: 12px; }
+      .project-name { font-family: var(--sans); font-size: 16px; font-weight: 700; color: var(--text-bright); }
+      .project-badge { font-size: 9px; padding: 2px 7px; border-radius: 4px; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; }
+      .badge-public { background: var(--green-soft); color: var(--green); border: 1px solid color-mix(in srgb, var(--green) 24%, transparent); }
+      .badge-private { background: var(--surface-2); color: var(--text-dim); border: 1px solid var(--border); }
+      .badge-demo { background: var(--accent-soft); color: var(--accent); border: 1px solid color-mix(in srgb, var(--accent) 24%, transparent); }
+      .project-desc { font-size: 13px; color: var(--text); line-height: 1.7; max-width: 520px; margin-bottom: 12px; }
       .project-stack { display: flex; flex-wrap: wrap; gap: 5px; }
       .project-stack .tag { font-size: 10px; }
       .project-links { display: flex; flex-direction: column; gap: 10px; align-items: flex-end; min-width: 72px; padding-top: 4px; }
       .project-link { font-size: 11px; color: var(--text-dim); display: flex; align-items: center; gap: 5px; transition: color 0.2s; white-space: nowrap; }
       .project-link:hover { color: var(--accent); }
       .project-link svg { width: 12px; height: 12px; fill: currentColor; }
-      .lock-text { font-size: 11px; color: #333; }
-      .contact-row { display: flex; flex-direction: column; gap: 16px; }
-      .contact-item { display: flex; align-items: center; gap: 20px; font-size: 13px; }
-      .contact-label { color: var(--text-dim); width: 80px; font-size: 11px; letter-spacing: 0.06em; flex-shrink: 0; }
-      .contact-value { color: var(--text); transition: color 0.2s; }
-      .contact-value:hover { color: var(--accent); }
-      .contact-private { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: #444; border: 1px solid var(--border); padding: 3px 10px; border-radius: 2px; background: var(--surface); letter-spacing: 0.04em; }
-      .contact-private svg { width: 10px; height: 10px; fill: currentColor; opacity: 0.5; }
-      footer { padding: 36px 0; border-top: 1px solid var(--border); }
+      .lock-text { font-size: 11px; color: var(--text-dim); }
+      .more-projects { display: inline-flex; align-items: center; gap: 8px; margin-top: 26px; font-size: 12px; color: var(--accent); border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); background: var(--accent-soft); padding: 8px 16px; border-radius: 8px; transition: 0.2s; letter-spacing: 0.02em; }
+      .more-projects:hover { background: color-mix(in srgb, var(--accent) 20%, transparent); color: var(--text-bright); }
+      .more-projects svg { width: 12px; height: 12px; fill: currentColor; }
+
+      /* ===== GITHUB ACTIVITY ===== */
+      .gh-card { display: block; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px; box-shadow: var(--shadow); margin-bottom: 16px; overflow: hidden; }
+      .gh-card:last-child { margin-bottom: 0; }
+      .gh-streak { transition: border-color 0.2s, transform 0.2s; }
+      .gh-streak:hover { border-color: var(--border-strong); transform: translateY(-2px); }
+      .gh-streak img { display: block; width: 100%; max-width: 480px; margin: 0 auto; height: auto; }
+      .gh-graph-label { font-size: 10px; color: var(--text-dim); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 12px; }
+      .gh-graph-label span { color: var(--accent); }
+      .gh-graph { display: block; width: 100%; height: auto; }
+      .gh-cal-loading { font-size: 12px; color: var(--text-dim); padding: 8px 2px; }
+      .gh-cal-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+      .gh-cal-count { font-family: var(--sans); font-size: 15px; font-weight: 600; color: var(--text-bright); }
+      .gh-cal-years { display: flex; gap: 6px; flex-wrap: wrap; }
+      .gh-year-btn { font-size: 11px; font-family: var(--mono); color: var(--text-dim); background: var(--surface-2); border: 1px solid var(--border); padding: 3px 9px; border-radius: 5px; cursor: pointer; transition: 0.2s; }
+      .gh-year-btn:hover { color: var(--text-bright); border-color: var(--border-strong); }
+      .gh-year-btn.active { color: #fff; background: var(--accent); border-color: var(--accent); }
+      .gh-cal-scroll { overflow-x: auto; padding-bottom: 4px; }
+      .gh-cal-svg { display: block; }
+      .gh-cal-svg text { fill: var(--text-dim); font-family: var(--mono); font-size: 9px; }
+      .gh-cal-legend { display: flex; align-items: center; gap: 5px; justify-content: flex-end; margin-top: 10px; font-size: 10px; color: var(--text-dim); }
+      .gh-cal-legend i { width: 11px; height: 11px; border-radius: 2px; display: inline-block; }
+
+      /* ===== EDUCATION ===== */
+      .edu-grid { display: flex; flex-direction: column; gap: 0; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; background: var(--surface); box-shadow: var(--shadow); }
+      .edu-item { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 18px 22px; border-bottom: 1px solid var(--border); flex-wrap: wrap; transition: background 0.2s; }
+      .edu-item:hover { background: var(--surface-2); }
+      .edu-item:last-child { border-bottom: none; }
+      .edu-degree { font-family: var(--sans); font-size: 14.5px; font-weight: 600; color: var(--text-bright); }
+      .edu-school { font-size: 12px; color: var(--text); margin-top: 2px; }
+      .edu-left { min-width: 0; }
+      .edu-year { font-size: 12px; color: var(--text-dim); white-space: nowrap; }
+      .edu-note { font-size: 11px; color: var(--accent); margin-left: 8px; }
+
+      /* Education + Contact side by side */
+      .dual { display: grid; grid-template-columns: 1fr 1fr; gap: 34px; padding: 46px 0; scroll-margin-top: 64px; }
+      .dual > section { padding: 0; border-bottom: none; }
+      @media (max-width: 720px) { .dual { grid-template-columns: 1fr; gap: 34px; } }
+
+      /* ===== CONTACT ===== */
+      .contact-row { display: flex; flex-direction: column; gap: 4px; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; background: var(--surface); box-shadow: var(--shadow); }
+      .contact-item { display: flex; align-items: center; gap: 18px; font-size: 13px; padding: 15px 22px; border-bottom: 1px solid var(--border); transition: background 0.2s; }
+      .contact-item:last-child { border-bottom: none; }
+      .contact-item:hover { background: var(--surface-2); }
+      .contact-label { color: var(--text-dim); width: 84px; font-size: 11px; letter-spacing: 0.05em; flex-shrink: 0; }
+      .contact-value { color: var(--text-bright); transition: color 0.2s; word-break: break-all; }
+      .contact-item:hover .contact-value { color: var(--accent); }
+
+      footer { padding: 34px 0 46px; }
       .footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
       .footer-copy { font-size: 11px; color: var(--text-dim); }
-      .footer-links { display: flex; gap: 20px; }
+      .footer-links { display: flex; gap: 18px; }
       .footer-links a { font-size: 11px; color: var(--text-dim); transition: color 0.2s; }
       .footer-links a:hover { color: var(--text-bright); }
-      @media (max-width: 520px) { nav ul { gap: 16px; } nav ul li:nth-child(n + 4) { display: none; } .project { grid-template-columns: 1fr; } .project-links { flex-direction: row; align-items: center; } }
-      .side-commands { position: fixed; top: 0; bottom: 0; width: calc((100vw - 760px) / 2 - 40px); pointer-events: none; overflow: hidden; z-index: 0; }
-      .side-commands.left { left: 0; } .side-commands.right { right: 0; }
-      .cmd { position: absolute; font-family: var(--mono); font-size: 12px; color: #333333; white-space: nowrap; animation: floatUp linear infinite; user-select: none; }
-      .cmd.active { color: #5a5a5a; }
-      @keyframes floatUp { 0% { transform: translateY(100vh) rotate(var(--rot)); opacity: 0; } 5% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translateY(-120px) rotate(var(--rot)); opacity: 0; } }
-      @media (max-width: 1100px) { .side-commands { display: none; } }
 
-      /* CONSOLE MODE */
-      #console-mode { display: none; margin-top: 50px; padding: 20px; min-height: calc(100vh - 50px); background: var(--bg); color: var(--text-bright); }
+      @media (max-width: 560px) {
+        .project { grid-template-columns: 1fr; }
+        .project-links { flex-direction: row; align-items: center; }
+      }
+
+      /* Scroll reveal (GSAP-driven; opacity guard prevents flash before animation) */
+      .reveal { opacity: 0; }
+      .res-card { will-change: transform; }
+      @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1 !important; } .cursor, .status-dot { animation: none; } }
+
+      /* ===== CONSOLE MODE ===== */
+      #console-mode { display: none; margin-top: 46px; padding: 22px; min-height: calc(100vh - 46px); background: var(--code-bg); color: var(--code-text); font-size: 14px; }
       #console-output { white-space: pre-wrap; margin-bottom: 10px; }
       .console-line { margin-bottom: 5px; }
-      .console-prompt { color: var(--green); margin-right: 8px; }
-      .console-cmd-text { color: var(--text-bright); }
-      .console-res { color: var(--text); padding-left: 0; margin-top: 4px; margin-bottom: 8px; }
-      .console-err { color: #ff5555; }
-      .console-dir { color: var(--accent); font-weight: bold; }
-      .console-link { color: #8be9fd; text-decoration: underline; }
+      .console-prompt { color: #7de3b0; margin-right: 8px; }
+      .console-cmd-text { color: var(--code-text); }
+      .console-res { color: #b9b6cc; margin-top: 4px; margin-bottom: 8px; }
+      .console-err { color: #ff6b6b; }
+      .console-dir { color: #8b83ff; font-weight: bold; }
+      .console-link { color: #7de3b0; text-decoration: underline; }
       .console-input-wrap { display: flex; align-items: center; }
-      #console-input { background: transparent; border: none; color: var(--text-bright); font-family: var(--mono); font-size: 16px; flex: 1; outline: none; caret-color: var(--accent); }
+      #console-input { background: transparent; border: none; color: var(--code-text); font-family: var(--mono); font-size: 15px; flex: 1; outline: none; caret-color: #8b83ff; }
     </style>
   </head>
   <body>
-    <!-- MODE TOGGLE -->
-    <div class="mode-toggle">
-      <button id="btn-theme" class="mode-btn" onclick="toggleTheme()">[light]</button>
-      <button id="btn-gui" class="mode-btn active" onclick="setMode('gui')">[gui]</button>
-      <button id="btn-console" class="mode-btn" onclick="setMode('console')">[console]</button>
+    <!-- TOP BAR -->
+    <div class="topbar">
+      <div class="topbar-left">
+        <span class="status-dot"></span>
+        <span>server up · <b id="uptime">00:00:00</b></span>
+      </div>
+      <div class="topbar-right">
+        <button id="btn-gui" class="mode-btn active" onclick="setMode('gui')">[gui]</button>
+        <button id="btn-console" class="mode-btn" onclick="setMode('console')">[console]</button>
+      </div>
     </div>
 
     <!-- GUI MODE -->
     <div id="gui-mode">
-      <div class="side-commands left" id="leftCmds"></div>
-      <div class="side-commands right" id="rightCmds"></div>
-
-      <nav>
-        <div class="container">
-          <div class="inner">
-            <div class="logo">ayusclg<span>_</span></div>
-            <ul>
-              <li><a href="#about">about</a></li>
-              <li><a href="#stack">stack</a></li>
-              <li><a href="#projects">projects</a></li>
-              <li><a href="#contact">contact</a></li>
-            </ul>
-          </div>
-        </div>
+      <nav class="toc" id="toc" aria-label="Sections">
+        <a href="#hero" data-sec="hero"><span class="toc-line"></span><span class="toc-label">intro</span></a>
+        <a href="#about" data-sec="about"><span class="toc-line"></span><span class="toc-label">about</span></a>
+        <a href="#experience" data-sec="experience"><span class="toc-line"></span><span class="toc-label">experience</span></a>
+        <a href="#stack" data-sec="stack"><span class="toc-line"></span><span class="toc-label">stack</span></a>
+        <a href="#projects" data-sec="projects"><span class="toc-line"></span><span class="toc-label">projects</span></a>
+        <a href="#activity" data-sec="activity"><span class="toc-line"></span><span class="toc-label">activity</span></a>
+        <a href="#connect" data-sec="connect"><span class="toc-line"></span><span class="toc-label">education &amp; contact</span></a>
       </nav>
 
       <div class="container">
         <!-- HERO -->
         <section id="hero">
-          <div class="hero-prompt">~ $ whoami<span class="cursor"></span></div>
-          <h1>Aayush Pandey</h1>
+          <div class="hero-prompt"><b>~</b> $ whoami<span class="cursor"></span></div>
+          <h1>Ayush Pandey</h1>
+          <div class="hero-role">Backend Developer<span class="sep">/</span>Node.js Ecosystem</div>
+          <div class="type-line"><span class="fixed">I build&nbsp;</span><span class="typed" id="typed"></span></div>
           <p class="hero-sub">
-            Backend developer from Chitwan, Nepal. I build the parts of
-            applications users never see — APIs, data pipelines, auth systems, job
-            queues. Node.js and TypeScript are home base. Obsessed with making
-            things reliable before making them fast.
+            I build the invisible half of an app — the APIs, auth, and
+            data layer everything else stands on.
           </p>
           <div class="hero-meta">
-            <span><span class="dot"></span> Based in Nepal</span>
-            <span><span class="dot blue"></span> Open to remote</span>
+            <span class="chip"><span class="dot"></span> Kathmandu, Nepal</span>
+            <span class="chip"><span class="dot amber"></span> Available for work or projects</span>
           </div>
         </section>
 
         <!-- ABOUT -->
-        <section id="about">
-          <div class="label">// about</div>
-          <div class="about-block">
-            <div class="about-text">
-              <p>
-                I got into code through BCA at Sungava College, but the actual
-                learning happened between classes — late nights, side projects,
-                breaking things and figuring out why they broke.
-              </p>
-              <p>
-                I ended up in backend because I like the part nobody thinks about.
-                A clean API contract. A queue that doesn't drop jobs. A schema
-                that holds up six months later. Frontend is the face; backend is
-                the skeleton.
-              </p>
-              <p>
-                Currently building with Node.js, TypeScript, and whatever database
-                fits the problem. Getting deeper into headless commerce with
-                Vendure and studying system design properly.
-              </p>
+        <section id="about" class="reveal">
+          <div class="endpoint"><span class="method get">GET</span><span class="path">/about</span></div>
+          <div class="about-text">
+            <p>
+              Backend developer specializing in <b>Node.js</b>, with hands-on
+              experience building scalable, secure, and production-ready
+              systems. My comfort zone is <b>API design</b>, authentication,
+              database modeling, and cloud media handling.
+            </p>
+            <p>
+              I ended up in backend because I like the part nobody thinks
+              about — a clean API contract, a schema that holds up six months
+              later, an order lifecycle that stays consistent across a dozen
+              integrated services. Frontend is the face; backend is the
+              skeleton.
+            </p>
+            <p>
+              Lately I've gone deep into <b>headless commerce</b> with NestJS
+              and Vendure, generic CMS architecture, and agentic e-commerce
+              through AI agent integrations. Comfortable collaborating with
+              teams and shipping reliable services.
+            </p>
+          </div>
+        </section>
+
+        <!-- EXPERIENCE -->
+        <section id="experience" class="reveal">
+          <div class="endpoint"><span class="method get">GET</span><span class="path">/experience</span></div>
+          <div class="timeline">
+            <div class="tl-item current">
+              <div class="tl-marker"></div>
+              <div class="tl-body">
+                <div class="tl-head">
+                  <span class="tl-role">Full-Stack Developer</span>
+                  <span class="tl-badge current">current</span>
+                </div>
+                <div class="tl-meta"><span class="tl-company">Hyperce</span><span class="tl-date">Jan 2026 — Present</span></div>
+                <ul class="tl-points">
+                  <li>Worked on various real-world e-commerce projects end to end, across different architectures.</li>
+                  <li>Gained production-level architectural knowledge and a real understanding of how deployment actually works in the real world.</li>
+                  <li>Building hands-on experience writing scalable, memory-optimized code with strong coding standards.</li>
+                  <li>Learning to think in system design rather than just writing code.</li>
+                  <li>Handling national and international payment integrations.</li>
+                </ul>
+              </div>
             </div>
-            <div class="about-code"><span class="c-comment">// how I think about work</span>
-  <span class="c-key">const</span> approach = {
-    design: <span class="c-str">'architecture first'</span>,
-    data:   <span class="c-str">'schema before logic'</span>,
-    perf:   <span class="c-str">'measure, then optimize'</span>,
-    code:   <span class="c-str">'readable &gt; clever'</span>,
-    debug:  <span class="c-str">'midnight is fine'</span>
-  <span class="c-punct">};</span></div>
+
+            <div class="tl-item">
+              <div class="tl-marker"></div>
+              <div class="tl-body">
+                <div class="tl-head">
+                  <span class="tl-role">Backend Developer</span>
+                </div>
+                <div class="tl-meta"><span class="tl-company">Rabbit Studio</span><span class="tl-date">Feb 2025 — Jan 2026</span></div>
+                <ul class="tl-points">
+                  <li>Developed backend systems for client projects using Node.js and Express.js.</li>
+                  <li>Built RESTful APIs with authentication and role-based access control.</li>
+                  <li>Designed schemas and optimized queries across MongoDB and PostgreSQL.</li>
+                  <li>Implemented secure media upload flows using Cloudinary.</li>
+                  <li>Followed Git workflows, code reviews, and CI/CD practices.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="tl-item">
+              <div class="tl-marker"></div>
+              <div class="tl-body">
+                <div class="tl-head">
+                  <span class="tl-role">Backend Developer Intern</span>
+                </div>
+                <div class="tl-meta"><span class="tl-company">Maya Multipurpose Pvt. Ltd</span><span class="tl-date">Nov 2024 — Feb 2025</span></div>
+                <ul class="tl-points">
+                  <li>Developed backend APIs for a multi-service platform using Node.js.</li>
+                  <li>Implemented JWT-based authentication and refresh-token flows.</li>
+                  <li>Integrated Cloudinary for secure media storage.</li>
+                  <li>Worked closely with frontend and QA teams using Git and issue-tracking tools.</li>
+                </ul>
+              </div>
+            </div>
           </div>
         </section>
 
         <!-- STACK -->
-        <section id="stack">
-          <div class="label">// stack</div>
+        <section id="stack" class="reveal">
+          <div class="endpoint"><span class="method get">GET</span><span class="path">/stack</span></div>
           <div class="stack-grid">
             <div class="stack-category">
               <div class="stack-category-name">languages</div>
@@ -212,84 +404,43 @@
               </div>
             </div>
             <div class="stack-category">
-              <div class="stack-category-name">runtime &amp; frameworks</div>
+              <div class="stack-category-name">backend</div>
               <div class="stack-tags">
                 <span class="tag">Node.js</span>
-                <span class="tag">Express</span>
                 <span class="tag">NestJS</span>
+                <span class="tag">Express.js</span>
                 <span class="tag">Vendure</span>
               </div>
             </div>
             <div class="stack-category">
-              <div class="stack-category-name">databases</div>
+              <div class="stack-category-name">databases &amp; orm</div>
               <div class="stack-tags">
                 <span class="tag">PostgreSQL</span>
                 <span class="tag">MongoDB</span>
                 <span class="tag">Redis</span>
-              </div>
-            </div>
-            <div class="stack-category">
-              <div class="stack-category-name">ORM / ODM</div>
-              <div class="stack-tags">
                 <span class="tag">Prisma</span>
-                <span class="tag">Mongoose</span>
                 <span class="tag">TypeORM</span>
+                <span class="tag">Mongoose</span>
               </div>
             </div>
             <div class="stack-category">
-              <div class="stack-category-name">tools</div>
+              <div class="stack-category-name">dev tools &amp; cloud</div>
               <div class="stack-tags">
-                <span class="tag">Docker</span>
                 <span class="tag">Git</span>
-                <span class="tag">BullMQ</span>
+                <span class="tag">Docker</span>
+                <span class="tag">CI/CD</span>
+                <span class="tag">Monitoring</span>
+                <span class="tag">Cloud Storage</span>
                 <span class="tag">Nginx</span>
-              </div>
-            </div>
-            <div class="stack-category">
-              <div class="stack-category-name">currently learning</div>
-              <div class="stack-tags">
-                <span class="tag">system design</span>
-                <span class="tag">microservices</span>
+                <span class="tag">PM2</span>
               </div>
             </div>
           </div>
         </section>
 
         <!-- PROJECTS -->
-        <section id="projects">
-          <div class="label">// projects</div>
-
-          <div class="project">
-            <div class="project-left">
-              <div class="project-title-row">
-                <span class="project-name">Document Scan AI</span>
-                <span class="project-badge badge-public">public</span>
-              </div>
-              <p class="project-desc">
-                Full-stack AI document processor. Upload a PDF, get OCR output,
-                summaries, and Q&amp;A on the content. Handles large files,
-                integrates Tesseract, stores documents in PostgreSQL via Prisma.
-              </p>
-              <div class="project-stack">
-                <span class="tag">Node.js</span>
-                <span class="tag">Express</span>
-                <span class="tag">React</span>
-                <span class="tag">PostgreSQL</span>
-                <span class="tag">Prisma</span>
-                <span class="tag">Tesseract OCR</span>
-              </div>
-            </div>
-            <div class="project-links">
-              <a href="https://github.com/ayusclg/document-scan-ai" target="_blank" class="project-link">
-                <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-                github
-              </a>
-              <a href="https://document-scan-ai-frontend.vercel.app/" target="_blank" class="project-link">
-                <svg viewBox="0 0 16 16"><path d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/><path d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/></svg>
-                live
-              </a>
-            </div>
-          </div>
+        <section id="projects" class="reveal">
+          <div class="endpoint"><span class="method get">GET</span><span class="path">/projects</span></div>
 
           <div class="project">
             <div class="project-left">
@@ -312,34 +463,6 @@
             </div>
             <div class="project-links">
               <a href="https://github.com/ayusclg/GigPoint-Backend" target="_blank" class="project-link">
-                <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-                github
-              </a>
-            </div>
-          </div>
-
-          <div class="project">
-            <div class="project-left">
-              <div class="project-title-row">
-                <span class="project-name">NotifyTask</span>
-                <span class="project-badge badge-public">public</span>
-              </div>
-              <p class="project-desc">
-                Task management backend with a real job queue. Tasks are created
-                with priorities and deadlines, BullMQ handles scheduling,
-                Nodemailer sends the reminders. Redis-backed.
-              </p>
-              <div class="project-stack">
-                <span class="tag">Node.js</span>
-                <span class="tag">Express</span>
-                <span class="tag">MongoDB</span>
-                <span class="tag">BullMQ</span>
-                <span class="tag">Redis</span>
-                <span class="tag">Nodemailer</span>
-              </div>
-            </div>
-            <div class="project-links">
-              <a href="https://github.com/ayusclg/notfy-task-backend" target="_blank" class="project-link">
                 <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
                 github
               </a>
@@ -396,35 +519,52 @@
             </div>
           </div>
 
-          <div class="project">
-            <div class="project-left">
-              <div class="project-title-row">
-                <span class="project-name">Mini Game</span>
-                <span class="project-badge badge-demo">demo</span>
+          <a href="https://github.com/ayusclg?tab=repositories" target="_blank" rel="noopener" class="more-projects">
+            more projects on GitHub
+            <svg viewBox="0 0 16 16"><path d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/><path d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/></svg>
+          </a>
+        </section>
+
+        <!-- GITHUB ACTIVITY -->
+        <section id="activity" class="reveal">
+          <div class="endpoint"><span class="method get">GET</span><span class="path">/activity</span></div>
+          <div class="gh-card" id="gh-calendar">
+            <div class="gh-cal-loading">loading contribution graph…</div>
+          </div>
+        </section>
+
+        <!-- EDUCATION + CONTACT (side by side) -->
+        <div class="dual" id="connect">
+        <section id="education" class="reveal">
+          <div class="endpoint"><span class="method get">GET</span><span class="path">/education</span></div>
+          <div class="edu-grid">
+            <div class="edu-item">
+              <div class="edu-left">
+                <div class="edu-degree">Bachelor of Computer Application</div>
+                <div class="edu-school">Sungava College · Tribhuvan University</div>
               </div>
-              <p class="project-desc">
-                Browser game built with React and Canvas API. Scoring, game state
-                management, responsive layout.
-              </p>
-              <div class="project-stack">
-                <span class="tag">React</span>
-                <span class="tag">Vite</span>
-                <span class="tag">Canvas API</span>
-                <span class="tag">JavaScript</span>
-              </div>
+              <div class="edu-year">2020 — 2025</div>
             </div>
-            <div class="project-links">
-              <a href="https://game-blue-two.vercel.app/" target="_blank" class="project-link">
-                <svg viewBox="0 0 16 16"><path d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/><path d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/></svg>
-                live
-              </a>
+            <div class="edu-item">
+              <div class="edu-left">
+                <div class="edu-degree">+2 NEB Science</div>
+                <div class="edu-school">New Capital College</div>
+              </div>
+              <div class="edu-year">Higher Secondary</div>
+            </div>
+            <div class="edu-item">
+              <div class="edu-left">
+                <div class="edu-degree">SEE</div>
+                <div class="edu-school">Daisy Boarding School</div>
+              </div>
+              <div class="edu-year">Secondary</div>
             </div>
           </div>
         </section>
 
         <!-- CONTACT -->
-        <section id="contact">
-          <div class="label">// contact</div>
+        <section id="contact" class="reveal">
+          <div class="endpoint"><span class="method post">POST</span><span class="path">/contact</span></div>
           <div class="contact-row">
             <div class="contact-item">
               <span class="contact-label">email</span>
@@ -435,30 +575,26 @@
               <a href="https://github.com/ayusclg" target="_blank" class="contact-value">github.com/ayusclg</a>
             </div>
             <div class="contact-item">
-              <span class="contact-label">twitter/x</span>
-              <a href="https://x.com/ayusclg" target="_blank" class="contact-value">x.com/ayusclg</a>
-            </div>
-            <div class="contact-item">
-              <span class="contact-label">instagram</span>
-              <a href="https://instagram.com/ayusclg" target="_blank" class="contact-value">instagram.com/ayusclg</a>
-            </div>
-            <div class="contact-item">
               <span class="contact-label">linkedin</span>
-              <a href="https://www.linkedin.com/in/ayush-pandey-87b11b288/" target="_blank" class="contact-value">linkedin.com/in/ayush-pandey-87b11b288</a>
+              <a href="https://www.linkedin.com/in/ayush-pandey-87b11b288/" target="_blank" class="contact-value">linkedin.com/in/ayush-pandey</a>
+            </div>
+            <div class="contact-item">
+              <span class="contact-label">portfolio</span>
+              <a href="https://ayuclg.xyz/" class="contact-value">ayuclg.xyz</a>
             </div>
           </div>
         </section>
+        </div>
       </div>
 
       <footer>
         <div class="container">
           <div class="footer-inner">
-            <span class="footer-copy">© 2025 Aayush Pandey</span>
+            <span class="footer-copy">© 2026 Ayush Pandey · built from scratch</span>
             <div class="footer-links">
               <a href="https://github.com/ayusclg" target="_blank">GitHub</a>
-              <a href="https://x.com/ayusclg" target="_blank">Twitter</a>
-              <a href="https://instagram.com/ayusclg" target="_blank">Instagram</a>
               <a href="https://www.linkedin.com/in/ayush-pandey-87b11b288/" target="_blank">LinkedIn</a>
+              <a href="https://ayuclg.xyz/">Portfolio</a>
             </div>
           </div>
         </div>
@@ -474,21 +610,10 @@
       </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script>
-      // THEME LOGIC
-      function toggleTheme() {
-        const root = document.documentElement;
-        const btn = document.getElementById('btn-theme');
-        if (root.getAttribute('data-theme') === 'light') {
-          root.removeAttribute('data-theme');
-          btn.textContent = '[light]';
-        } else {
-          root.setAttribute('data-theme', 'light');
-          btn.textContent = '[dark]';
-        }
-      }
-
-      // TOGGLE LOGIC
+      // MODE TOGGLE
       function setMode(mode) {
         if (mode === 'gui') {
           document.getElementById('gui-mode').style.display = 'block';
@@ -501,59 +626,186 @@
           document.getElementById('btn-gui').classList.remove('active');
           document.getElementById('btn-console').classList.add('active');
           document.getElementById('console-input').focus();
-          if(!window.consoleInitialized) initConsole();
+          if (!window.consoleInitialized) initConsole();
         }
       }
 
-      // SIDE COMMANDS (GUI)
-      const sideCommands = [
-        "npm run dev", 'git commit -m "fix: auth"', "docker ps",
-        "node server.js", "git push origin main", "npx prisma migrate dev",
-        "redis-cli ping", "curl localhost:3000/api", "pm2 start app.js",
-        "git status", "docker-compose up -d", "npm install express",
-        'mongosh --eval "db.stats()"', "git log --oneline", "ts-node src/index.ts"
-      ];
-      function spawnCmd(container) {
-        const el = document.createElement("div");
-        el.className = "cmd" + (Math.random() > 0.6 ? " active" : "");
-        el.textContent = sideCommands[Math.floor(Math.random() * sideCommands.length)];
-        const w = container.offsetWidth;
-        const rot = (Math.random() - 0.5) * 10;
-        const dur = 18 + Math.random() * 24;
-        const delay = Math.random() * -30;
-        const left = Math.random() * Math.max(0, w - 180);
-        el.style.cssText = `left:${left}px;--rot:${rot}deg;animation-duration:${dur}s;animation-delay:${delay}s;`;
-        container.appendChild(el);
-        setTimeout(() => el.remove(), (dur + Math.abs(delay) + 2) * 1000);
-      }
-      function initSide(id, n) {
-        const c = document.getElementById(id);
-        if (!c) return;
-        for (let i = 0; i < n; i++) spawnCmd(c);
-        setInterval(() => spawnCmd(c), 1600);
-      }
-      if (window.innerWidth >= 1100) {
-        initSide("leftCmds", 14);
-        initSide("rightCmds", 14);
-      }
+      // UPTIME CLOCK
+      (function () {
+        const el = document.getElementById('uptime');
+        let s = 0;
+        setInterval(() => {
+          s++;
+          const h = String(Math.floor(s / 3600)).padStart(2, '0');
+          const m = String(Math.floor((s % 3600) / 60)).padStart(2, '0');
+          const sec = String(s % 60).padStart(2, '0');
+          el.textContent = `${h}:${m}:${sec}`;
+        }, 1000);
+      })();
 
-      // CONSOLE LOGIC
+      // TYPEWRITER tagline
+      (function () {
+        const el = document.getElementById('typed');
+        if (!el) return;
+        const words = [
+          'REST & GraphQL APIs',
+          'auth & RBAC systems',
+          'headless commerce backends',
+          'schemas that don\'t break',
+          'payment & billing integrations',
+          'job queues & pipelines'
+        ];
+        let wi = 0, ci = 0, deleting = false;
+        function tick() {
+          const w = words[wi];
+          if (!deleting) {
+            el.textContent = w.slice(0, ++ci);
+            if (ci === w.length) { deleting = true; return setTimeout(tick, 1600); }
+          } else {
+            el.textContent = w.slice(0, --ci);
+            if (ci === 0) { deleting = false; wi = (wi + 1) % words.length; }
+          }
+          setTimeout(tick, deleting ? 40 : 75);
+        }
+        tick();
+      })();
+
+      // SIDE CONTENTS RAIL — scroll-spy (highlight current section) + click to jump
+      (function () {
+        const links = Array.prototype.slice.call(document.querySelectorAll('.toc a'));
+        if (!links.length) return;
+        const map = new Map();
+        links.forEach(a => {
+          const el = document.getElementById(a.getAttribute('href').slice(1));
+          if (el) map.set(el, a);
+        });
+        function setActive(a) {
+          links.forEach(l => l.classList.toggle('active', l === a));
+        }
+        if ('IntersectionObserver' in window) {
+          const io = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.isIntersecting) setActive(map.get(e.target)); });
+          }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
+          map.forEach((a, el) => io.observe(el));
+        }
+        // Smooth click-to-jump (also works if smooth CSS is unsupported)
+        links.forEach(a => a.addEventListener('click', (ev) => {
+          const el = document.getElementById(a.getAttribute('href').slice(1));
+          if (!el) return;
+          ev.preventDefault();
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          setActive(a);
+          history.replaceState(null, '', a.getAttribute('href'));
+        }));
+      })();
+
+      // GSAP ANIMATIONS (hero entrance + scroll reveals + card float)
+      (function () {
+        const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const revealAll = () => document.querySelectorAll('.reveal').forEach(e => { e.style.opacity = 1; });
+
+        // Fallback: no GSAP (CDN blocked) or reduced motion -> show everything, no animation
+        if (!window.gsap || reduce) { revealAll(); return; }
+
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Hero entrance (runs on load, above the fold)
+        gsap.timeline({ defaults: { ease: 'power3.out' } })
+          .from('.hero-prompt', { opacity: 0, y: 16, duration: 0.5 })
+          .from('#hero h1', { opacity: 0, y: 28, duration: 0.65 }, '-=0.2')
+          .from('.hero-role', { opacity: 0, y: 16, duration: 0.5 }, '-=0.35')
+          .from('.type-line', { opacity: 0, y: 14, duration: 0.5 }, '-=0.35')
+          .from('.hero-sub', { opacity: 0, y: 14, duration: 0.5 }, '-=0.35')
+          .from('.hero-meta .chip', { opacity: 0, y: 12, stagger: 0.1, duration: 0.45 }, '-=0.3');
+
+        // Per-section scroll reveal with staggered children
+        gsap.utils.toArray('.reveal').forEach((sec) => {
+          const tl = gsap.timeline({ scrollTrigger: { trigger: sec, start: 'top 82%' } });
+          tl.set(sec, { opacity: 1 });
+          const label = sec.querySelector('.endpoint');
+          const kids = sec.querySelectorAll('.tl-item, .stack-category, .project, .edu-item, .contact-item, .about-text, .gh-card, .more-projects');
+          if (label) tl.from(label, { opacity: 0, y: 16, duration: 0.5, ease: 'power2.out' });
+          if (kids.length) tl.from(kids, { opacity: 0, y: 24, duration: 0.55, stagger: 0.08, ease: 'power2.out' }, label ? '-=0.25' : 0);
+        });
+
+        // Recalculate trigger positions once fonts/layout settle
+        window.addEventListener('load', () => ScrollTrigger.refresh());
+      })();
+
+      // GITHUB CONTRIBUTION CALENDAR (live fetch on every visit, native GitHub greens)
+      (function () {
+        const host = document.getElementById('gh-calendar');
+        if (!host) return;
+        const USER = 'ayusclg';
+        const COLORS = ['#ebedf0', '#9be9a8', '#40c463', '#30a14e', '#216e39'];
+        const CELL = 11, GAP = 3, STEP = CELL + GAP, LEFT = 30, TOP = 15;
+        const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        const YEAR = new Date().getFullYear();
+
+        function render(data) {
+          const days = data.contributions.filter(d => d.date.slice(0, 4) === String(YEAR));
+          const cells = [];
+          if (days.length) {
+            const firstDow = new Date(days[0].date + 'T00:00:00').getDay();
+            for (let i = 0; i < firstDow; i++) cells.push(null);
+          }
+          days.forEach(d => cells.push(d));
+          const weeks = [];
+          for (let i = 0; i < cells.length; i += 7) weeks.push(cells.slice(i, i + 7));
+          const width = LEFT + weeks.length * STEP + 4;
+          const height = TOP + 7 * STEP;
+          let rects = '', months = '', lastMonth = -1;
+          weeks.forEach((wk, wi) => {
+            const first = wk.find(d => d);
+            if (first) {
+              const m = new Date(first.date + 'T00:00:00').getMonth();
+              if (m !== lastMonth) { months += `<text x="${LEFT + wi * STEP}" y="10">${MONTHS[m]}</text>`; lastMonth = m; }
+            }
+            wk.forEach((d, di) => {
+              if (!d) return;
+              const x = LEFT + wi * STEP, y = TOP + di * STEP;
+              rects += `<rect x="${x}" y="${y}" width="${CELL}" height="${CELL}" rx="2" ry="2" fill="${COLORS[d.level] || COLORS[0]}"><title>${d.count} contribution${d.count === 1 ? '' : 's'} on ${d.date}</title></rect>`;
+            });
+          });
+          const dayLabels = `<text x="0" y="${TOP + STEP + 9}">Mon</text><text x="0" y="${TOP + 3 * STEP + 9}">Wed</text><text x="0" y="${TOP + 5 * STEP + 9}">Fri</text>`;
+          const legend = `<div class="gh-cal-legend">Less ${COLORS.map(c => `<i style="background:${c}"></i>`).join('')} More</div>`;
+          host.innerHTML =
+            `<div class="gh-cal-scroll"><svg class="gh-cal-svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">${months}${dayLabels}${rects}</svg></div>` +
+            legend;
+        }
+
+        fetch(`https://github-contributions-api.jogruber.de/v4/${USER}?y=${YEAR}`)
+          .then(r => { if (!r.ok) throw new Error('bad response'); return r.json(); })
+          .then(d => {
+            if (!d.contributions) throw new Error('no data');
+            render(d);
+          })
+          .catch(() => {
+            host.innerHTML = '<div class="gh-graph-label">contribution graph · <span>@ayusclg</span></div><img class="gh-graph" alt="GitHub contribution graph" src="https://ghchart.rshah.org/216e39/ayusclg" />';
+          });
+      })();
+
+      // ===== CONSOLE =====
       const fs = {
         '~': {
           type: 'dir',
           content: {
-            'about': { type: 'dir', content: { 'README.md': { type: 'file', content: "Aayush Pandey\n\nI got into code through BCA at Sungava College, but the actual\nlearning happened between classes — late nights, side projects,\nbreaking things and figuring out why they broke.\n\nI ended up in backend because I like the part nobody thinks about.\nA clean API contract. A queue that doesn't drop jobs. A schema\nthat holds up six months later. Frontend is the face; backend is\nthe skeleton.\n\nCurrently building with Node.js, TypeScript, and whatever database\nfits the problem. Getting deeper into headless commerce with\nVendure and studying system design properly." } } },
-            'stack': { type: 'dir', content: { 'README.md': { type: 'file', content: "Languages: TypeScript, JavaScript\nRuntime & Frameworks: Node.js, Express, NestJS\nDatabases: PostgreSQL, MongoDB, Redis\nORM / ODM: Prisma, Mongoose, TypeORM\nTools: Docker, Git, BullMQ, Nginx\nLearning: system design, microservices" } } },
+            'about': { type: 'dir', content: { 'README.md': { type: 'file', content: "Ayush Pandey — Backend Developer (Node.js Ecosystem)\n\nBackend developer specializing in Node.js, with hands-on experience\nbuilding scalable, secure, and production-ready systems. Strong background\nin API design, authentication, database modeling, and cloud media handling.\n\nI ended up in backend because I like the part nobody thinks about — a clean\nAPI contract, a schema that holds up six months later, an order lifecycle\nthat stays consistent across a dozen integrated services.\n\nLately: headless commerce with NestJS and Vendure, generic CMS\narchitecture, and agentic e-commerce through AI agent integrations." } } },
+            'experience': { type: 'dir', content: {
+              'hyperce.md': { type: 'file', content: "Full-Stack Developer — Hyperce (Jan 2026 - Present)\n- Various real-world e-commerce projects, end to end, across different architectures\n- Production-level architectural knowledge and how deployment actually works\n- Writing scalable, memory-optimized code with strong coding standards\n- Learning to think in system design rather than just writing code\n- Handling national and international payment integrations" },
+              'rabbit-studio.md': { type: 'file', content: "Backend Developer — Rabbit Studio (Feb 2025 - Jan 2026)\n- Backend systems for client projects (Node.js, Express.js)\n- RESTful APIs with authentication and role-based access control\n- Schema design and query optimization (MongoDB, PostgreSQL)\n- Secure media upload flows with Cloudinary\n- Git workflows, code reviews, CI/CD practices" },
+              'maya.md': { type: 'file', content: "Backend Developer Intern — Maya Multipurpose Pvt. Ltd (Nov 2024 - Feb 2025)\n- Backend APIs for a multi-service platform (Node.js)\n- JWT authentication with refresh-token flows\n- Cloudinary integration for secure media storage\n- Close collaboration with frontend and QA teams" }
+            }},
+            'stack': { type: 'dir', content: { 'README.md': { type: 'file', content: "Languages: JavaScript, TypeScript\nBackend: Node.js, NestJS, Express.js, Vendure\nDatabases & ORM: MongoDB, PostgreSQL, Redis, Mongoose, Prisma, TypeORM\nDev Tools & Cloud: Git, Docker, CI/CD, Monitoring, Cloud Storage, Nginx, PM2" } } },
             'projects': { type: 'dir', content: {
-              'document-scan-ai.md': { type: 'file', content: "Document Scan AI\nFull-stack AI document processor.\nStack: Node.js, Express, React, PostgreSQL, Prisma, Tesseract OCR\nGitHub: https://github.com/ayusclg/document-scan-ai\nLive: https://document-scan-ai-frontend.vercel.app/" },
               'gigpoint.md': { type: 'file', content: "GigPoint\nHome services marketplace backend.\nStack: Node.js, Express, MongoDB, JWT, REST API\nGitHub: https://github.com/ayusclg/GigPoint-Backend" },
-              'notifytask.md': { type: 'file', content: "NotifyTask\nTask management backend with a real job queue.\nStack: Node.js, Express, MongoDB, BullMQ, Redis, Nodemailer\nGitHub: https://github.com/ayusclg/notfy-task-backend" },
               'swaad.md': { type: 'file', content: "Swaad (Private)\nRestaurant ordering backend. Real-time order tracking via Socket.io.\nStack: Node.js, Express, MongoDB, Redis, Socket.io, JWT" },
               'api-gateway.md': { type: 'file', content: "API Gateway (Private)\nCustom API gateway for microservices.\nStack: Node.js, Express, Redis, Nginx, Docker, JWT" },
-              'mini-game.md': { type: 'file', content: "Mini Game\nBrowser game built with React and Canvas API.\nStack: React, Vite, Canvas API, JavaScript\nLive: https://game-blue-two.vercel.app/" }
+              'more.md': { type: 'file', content: "More projects on GitHub → https://github.com/ayusclg?tab=repositories" }
             }},
-            'contact': { type: 'dir', content: { 'README.md': { type: 'file', content: "GitHub: https://github.com/ayusclg\nTwitter: https://x.com/ayusclg\nInstagram: https://instagram.com/ayusclg\nLinkedIn: https://linkedin.com/in/ayush-pandey-87b11b288" } } },
-            'README.md': { type: 'file', content: "Aayush Pandey - Backend developer from Chitwan, Nepal.\n\nType 'help' to see available commands." }
+            'education': { type: 'dir', content: { 'README.md': { type: 'file', content: "Bachelor of Computer Application (2020 - 2025)\n  Sungava College, Tribhuvan University\n\n+2 NEB Science — New Capital College\nSEE — Daisy Boarding School" } } },
+            'contact': { type: 'dir', content: { 'README.md': { type: 'file', content: "Email: ayusclg@gmail.com\nGitHub: https://github.com/ayusclg\nLinkedIn: https://linkedin.com/in/ayush-pandey-87b11b288\nPortfolio: https://ayuclg.xyz" } } },
+            'README.md': { type: 'file', content: "Ayush Pandey — Backend Developer, Kathmandu, Nepal.\n\nType 'help' to see available commands." }
           }
         }
       };
@@ -568,21 +820,16 @@
       function getDir(pathArr) {
         let curr = fs['~'];
         for (let i = 1; i < pathArr.length; i++) {
-          if(curr.content && curr.content[pathArr[i]]) {
-            curr = curr.content[pathArr[i]];
-          } else {
-            return null;
-          }
+          if (curr.content && curr.content[pathArr[i]]) curr = curr.content[pathArr[i]];
+          else return null;
         }
         return curr;
       }
-
       function updatePrompt() {
         let p = currentPath.join('/').replace('~', '');
-        if(p==='') p='/';
+        if (p === '') p = '/';
         promptEl.textContent = `ayusclg@portfolio:~${p}$`;
       }
-
       function print(html) {
         const div = document.createElement('div');
         div.className = 'console-res';
@@ -590,42 +837,38 @@
         outputEl.appendChild(div);
         window.scrollTo(0, document.body.scrollHeight);
       }
-
       function printCmd(cmd) {
         const div = document.createElement('div');
         div.className = 'console-line';
         div.innerHTML = `<span class="console-prompt">${promptEl.textContent}</span> <span class="console-cmd-text">${cmd}</span>`;
         outputEl.appendChild(div);
       }
-
       function linkify(text) {
         return text.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" class="console-link">$1</a>');
       }
-
       function handleCommand(cmdStr) {
         const args = cmdStr.trim().split(' ').filter(x => x);
         if (args.length === 0) return;
         const cmd = args[0].toLowerCase();
-
         commandHistory.push(cmdStr);
         historyIdx = commandHistory.length;
-
         printCmd(cmdStr);
-
         switch (cmd) {
           case 'help':
             print(`Available commands:
-  <span style="color:#ffb86c">help</span>      - Show this help message
-  <span style="color:#ffb86c">whoami</span>    - Show current user info
-  <span style="color:#ffb86c">ls</span>        - List directory contents
-  <span style="color:#ffb86c">cd</span> &lt;dir&gt;  - Change directory
-  <span style="color:#ffb86c">cat</span> &lt;file&gt;- View file contents
-  <span style="color:#ffb86c">show</span> &lt;file&gt;- Same as cat
-  <span style="color:#ffb86c">clear</span>     - Clear terminal screen
-  <span style="color:#ffb86c">gui</span>       - Switch back to GUI mode`);
+  <span style="color:#f0a850">help</span>      - Show this help message
+  <span style="color:#f0a850">whoami</span>    - Show current user info
+  <span style="color:#f0a850">ls</span>        - List directory contents
+  <span style="color:#f0a850">cd</span> &lt;dir&gt;  - Change directory
+  <span style="color:#f0a850">cat</span> &lt;file&gt;- View file contents
+  <span style="color:#f0a850">show</span> &lt;file&gt;- Same as cat
+  <span style="color:#f0a850">clear</span>     - Clear terminal screen
+  <span style="color:#f0a850">gui</span>       - Switch back to GUI mode
+
+Tip: try 'cd experience' then 'ls'`);
             break;
           case 'whoami':
-            print('Aayush Pandey - Backend Developer');
+            print('Ayush Pandey — Backend Developer (Node.js Ecosystem), Kathmandu, Nepal');
             break;
           case 'clear':
             outputEl.innerHTML = '';
@@ -633,55 +876,42 @@
           case 'gui':
             setMode('gui');
             break;
-          case 'ls':
+          case 'ls': {
             const dir = getDir(currentPath);
             if (dir && dir.type === 'dir') {
-              let out = Object.keys(dir.content).map(k => {
-                if(dir.content[k].type === 'dir') return `<span class="console-dir">${k}/</span>`;
-                return k;
-              }).join('  ');
-              print(out);
+              print(Object.keys(dir.content).map(k =>
+                dir.content[k].type === 'dir' ? `<span class="console-dir">${k}/</span>` : k
+              ).join('  '));
             }
             break;
-          case 'cd':
+          }
+          case 'cd': {
             const target = args[1];
-            if (!target || target === '~') {
-              currentPath = ['~'];
-            } else if (target === '..') {
-              if (currentPath.length > 1) currentPath.pop();
-            } else {
+            if (!target || target === '~') currentPath = ['~'];
+            else if (target === '..') { if (currentPath.length > 1) currentPath.pop(); }
+            else {
               const currentDir = getDir(currentPath);
-              if (currentDir && currentDir.content && currentDir.content[target] && currentDir.content[target].type === 'dir') {
-                currentPath.push(target);
-              } else {
-                print(`<span class="console-err">cd: ${target}: No such directory</span>`);
-              }
+              if (currentDir && currentDir.content && currentDir.content[target] && currentDir.content[target].type === 'dir') currentPath.push(target);
+              else print(`<span class="console-err">cd: ${target}: No such directory</span>`);
             }
             updatePrompt();
             break;
+          }
           case 'cat':
-          case 'show':
+          case 'show': {
             const ftarget = args[1];
-            if (!ftarget) {
-              print(`<span class="console-err">${cmd}: missing file operand</span>`);
-              break;
-            }
+            if (!ftarget) { print(`<span class="console-err">${cmd}: missing file operand</span>`); break; }
             const cdir = getDir(currentPath);
             if (cdir && cdir.content && cdir.content[ftarget]) {
-              if (cdir.content[ftarget].type === 'file') {
-                print(linkify(cdir.content[ftarget].content));
-              } else {
-                print(`<span class="console-err">${cmd}: ${ftarget}: Is a directory</span>`);
-              }
-            } else {
-              print(`<span class="console-err">${cmd}: ${ftarget}: No such file or directory</span>`);
-            }
+              if (cdir.content[ftarget].type === 'file') print(linkify(cdir.content[ftarget].content));
+              else print(`<span class="console-err">${cmd}: ${ftarget}: Is a directory</span>`);
+            } else print(`<span class="console-err">${cmd}: ${ftarget}: No such file or directory</span>`);
             break;
+          }
           default:
             print(`<span class="console-err">Command not found: ${cmd}. Type 'help' for available commands.</span>`);
         }
       }
-
       inputEl.addEventListener('keydown', (e) => {
         if (e.key === 'Tab') {
           e.preventDefault();
@@ -689,50 +919,29 @@
           const args = val.split(' ');
           const lastArg = args[args.length - 1];
           const cmd = args[0];
-          
           if (args.length > 1 && (cmd === 'cd' || cmd === 'cat' || cmd === 'show')) {
             const dir = getDir(currentPath);
             if (dir && dir.content) {
               const matches = Object.keys(dir.content).filter(k => k.startsWith(lastArg));
-              if (matches.length === 1) {
-                args[args.length - 1] = matches[0];
-                inputEl.value = args.join(' ');
-              } else if (matches.length > 1) {
-                printCmd(val);
-                print(matches.join('  '));
-              }
+              if (matches.length === 1) { args[args.length - 1] = matches[0]; inputEl.value = args.join(' '); }
+              else if (matches.length > 1) { printCmd(val); print(matches.join('  ')); }
             }
           }
         } else if (e.key === 'Enter') {
-          const val = inputEl.value;
-          inputEl.value = '';
-          handleCommand(val);
+          const val = inputEl.value; inputEl.value = ''; handleCommand(val);
         } else if (e.key === 'ArrowUp') {
-          if (historyIdx > 0) {
-            historyIdx--;
-            inputEl.value = commandHistory[historyIdx];
-          }
+          if (historyIdx > 0) { historyIdx--; inputEl.value = commandHistory[historyIdx]; }
           e.preventDefault();
         } else if (e.key === 'ArrowDown') {
-          if (historyIdx < commandHistory.length - 1) {
-            historyIdx++;
-            inputEl.value = commandHistory[historyIdx];
-          } else {
-            historyIdx = commandHistory.length;
-            inputEl.value = '';
-          }
+          if (historyIdx < commandHistory.length - 1) { historyIdx++; inputEl.value = commandHistory[historyIdx]; }
+          else { historyIdx = commandHistory.length; inputEl.value = ''; }
           e.preventDefault();
         }
       });
-
-      // Keep focus on input in console mode
-      document.getElementById('console-mode').addEventListener('click', () => {
-        inputEl.focus();
-      });
-
+      document.getElementById('console-mode').addEventListener('click', () => inputEl.focus());
       function initConsole() {
         window.consoleInitialized = true;
-        print(`Welcome to Aayush's Portfolio Terminal (v1.0.0)\nType 'help' to see available commands.\n`);
+        print(`Welcome to Ayush's Portfolio Terminal (v2.0.0)\nType 'help' to see available commands.\n`);
       }
     </script>
   </body>
